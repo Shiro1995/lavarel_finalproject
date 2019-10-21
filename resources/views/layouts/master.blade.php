@@ -58,14 +58,14 @@
                       <li><a id="nav_index" href="javascript:void(0)">Dashboard</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-home"></i> Category <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-home"></i> Disease <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a id="nav_view_cat" href="javascript:void(0)">View Categorys</a></li>
+                      <li><a id="nav_view_disease" href="javascript:void(0)">View disease</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-home"></i> Book <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-home"></i> User <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a id="nav_view_book" href="javascript:void(0)">View Books</a></li>
+                      <li><a id="nav_view_book" href="javascript:void(0)">View User</a></li>
                     </ul>
                   </li>
                 </ul>

@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Model\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
-class BookController extends Controller
+class DiseaseController extends Controller
 {
 
     protected $mModelCat;
@@ -19,11 +20,21 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        $categories = $this->mModelCat->get();
+        $collections = collect();
+        foreach ($categories as $category) {
+            $arr = array(
+                'id' => $category->id,
+                'name' => $category->name,
+                'manipulation' => $category->id
+            );
+            $collections->push($arr);
+        }
+        return Datatables::collection($collections)->make();
     }
 
     /**

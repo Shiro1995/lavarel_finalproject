@@ -31,8 +31,8 @@ class NavigationController extends Controller
         echo json_encode($response_array);
     }
 
-    public function category() {
-        $returnHTML = view('ajax.page.category.index')->render();
+    public function disease() {
+        $returnHTML = view('ajax.page.disease.index')->render();
         $response_array = ([
             'success' => true,
             'html' => $returnHTML

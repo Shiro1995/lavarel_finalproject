@@ -11,7 +11,7 @@
         <div class="page-title">
             <div class="title_left">
                 <h3>Users
-                    <small>Some examples to get you started</small>
+                    <small>Hello Lucius</small>
                 </h3>
             </div>
 
@@ -59,7 +59,7 @@
                             DataTables has most features enabled by default, so all you need to do to use it with your
                             own tables is to call the construction function: <code>$().DataTable();</code>
                         </p>
-                        <table id="datatablesCategory" class="table table-striped table-bordered">
+                        <table id="datatablesDiesease" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -83,7 +83,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#datatablesCategory').dataTable({
+        $('#datatablesDiesease').dataTable({
             "pageLength": 15,
             "lengthMenu": [[15,30,45,-1], [15,30,45,'All']],
             'paging'      : true,
@@ -96,7 +96,7 @@
             "serverSide": true,
 
             "ajax": {
-                url: '/admin/category',
+                url: '/admin/module/disease',
                 type: 'GET'
             },
 
