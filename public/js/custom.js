@@ -2970,7 +2970,7 @@ if (typeof NProgress != 'undefined') {
 					},
 					calculable: false,
 					xAxis: [{
-					  type: 'disease',
+					  type: 'category',
 					  data: ['1?', '2?', '3?', '4?', '5?', '6?', '7?', '8?', '9?', '10?', '11?', '12?']
 					}],
 					yAxis: [{
@@ -3320,7 +3320,7 @@ if (typeof NProgress != 'undefined') {
 				},
 				calculable: true,
 				xAxis: [{
-				  type: 'disease',
+				  type: 'category',
 				  boundaryGap: false,
 				  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 				}],
@@ -4021,7 +4021,7 @@ if (typeof NProgress != 'undefined') {
 				  boundaryGap: [0, 0.01]
 				}],
 				yAxis: [{
-				  type: 'disease',
+				  type: 'category',
 				  data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 				}],
 				series: [{

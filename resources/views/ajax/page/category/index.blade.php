@@ -11,7 +11,7 @@
         <div class="page-title">
 
             <div class="x_title">
-                <button id="newDisease" class="btn btn-default" type="button">New Disease</button>
+                <button id="newCategory" class="btn btn-default" type="button">New Category</button>
                 <div class="clearfix"></div>
             </div>
             <div class="title_right">
@@ -58,7 +58,7 @@
                             DataTables has most features enabled by default, so all you need to do to use it with your
                             own tables is to call the construction function: <code>$().DataTable();</code>
                         </p>
-                        <table id="datatablesDisease" class="table table-striped table-bordered">
+                        <table id="datatablesCategory" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -80,15 +80,11 @@
         </div>
     </div>
 </div>
-@include('modal.disease.create')
-
+@include('modal.category.create')
+@include('modal.category.edit')
 <script>
-    /**
-     * This code to get all diseases from Server and
-     * show it in DataTables.
-     */
     $(document).ready(function () {
-        $('#datatablesDisease').dataTable({
+        $('#datatablesCategory').dataTable({
             "pageLength": 15,
             "lengthMenu": [[15,30,45,-1], [15,30,45,'All']],
             'paging'      : true,
@@ -101,7 +97,7 @@
             "serverSide": true,
 
             "ajax": {
-                url: '/admin/module/disease',
+                url: '/admin/module/category',
                 type: 'GET'
             },
 
@@ -110,44 +106,22 @@
                 { "data": "name" },
                 { "data": "manipulation", "render": function (id) {
                     return '<div class="text-center">'
-                        + '<a onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                        + '<a onclick= "editCategory('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                        + '<span>  </span>' + '<a onclick="deleteCategory('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                         + '</div>';
                 }}
             ]
         });
     });
 
-    /**
-     * We will show form Create Category again.
-     * Please make sure you have form create Category in index.blade.php
-     * - ('modal.disease.create')
-     * - Check id of modal to show createCategoryModal => you can create any modal different for object
-     * For example: createDiseaseModal, createSymphonyModal,....
-     */
-    $('#newDisease').click(function () {
-        // This command is shown
-        $('#createDiseaseModal').modal('show');
-        // This command is used to clear form when you open again.
-        $('#categoryFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+    $('#newCategory').click(function () {
+        $('#createCategoryModal').modal('show');
+        $('#roleFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
     });
-    /**
-     * When you click button <button type="submit" class="btn btn-primary">Create</button>
-     * => It automatically call submit form with Ajax.
-     * Normally,
-     */
+
     $(document).ready(function () {
-        $('#diseaseFormCreate').on('submit', function (event) {
-            /**
-             * This code blocks to validate Form using Jquery validate.
-             * As I told you before: https://thienanblog.com/javascript/jquery/huong-dan-su-dung-jquery-validation/
-             * Please take a look and observe if you want to understand validate more in blade file.
-             *
-             * What does it mean?
-             * rules: allow you to add field need to validate: name <name get from attribute id in tag input)
-             * messages: allow you to show message error when user didn't obey your rules with the same field.
-             */
-            $("#diseaseFormCreate").validate({
+        $('#categoryFormCreate').on('submit', function (event) {
+            $("#categoryFormCreate").validate({
                 rules: {
                     name: "required"
                 },
@@ -155,59 +129,23 @@
                     name: "Vui lòng nhập name"
                 }
             });
-
-            /**
-             * This command is check validate successfully. If it's failure and return false.
-             * You can go to the next step.
-             * If you remove this line and you ignore check validation in blade.
-             * The code blocks above doesn't mean.
-             */
             if (!$(this).valid()) return false;
-
-            /**
-             * event.preventDefault() to prevent navigate to another page.
-             * Basic of Ajax, it call inside page and get result inside page.
-             * There are two cases to prevent:
-             * Using this command
-             * If you use tag a and you should add javascript:void(0) in attribute href.
-             */
             event.preventDefault();
 
-            /**
-             * After you've done all manipulations above, you will hide modal => hide form and conduct submit your data.
-             */
-            $('#createDiseaseModal').modal('hide');
-
-            /**
-             * Get all value by using attribute name in Form.
-             * @type {FormData}
-             */
+            $('#createCategoryModal').modal('hide');
             var formData = new FormData(this);
             $.ajax({
-                url: '/admin/module/disease', // URL to submit
+                url: '/admin/module/category',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
-                },
-                method: 'POST', // Method
-                dataType: 'json', // We will send and get data returns as Json.
-                data: formData, // Pass data here.
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+                method: 'POST',
+                dataType: 'json',
+                data: formData,
                 processData: false,
                 contentType: false
             })
                 .done(function (data) {
-                    // Request Ajax successfully and get response.
-                    /**
-                     * To know exactly, when you've submit and your Ajax call where.
-                     * Please using php artisan route:list to check route, Controller and Method is called.
-                     * Inside, let's see it:
-                     * admin/module/disease  App\Http\Controllers\Dashboard\DiseaseController@store
-                     * What you are doing here?
-                     * You want to create Category why you navigate to DiseaseController?
-                     * OK. I'm in wrong file.
-                     * Can you understand it?
-                     * a little :D
-                     * I'll try to explain clearly for you and
-                     */
                     if (data['message']['status'] === 'invalid') {
                         swal("", data['message']['description'], "error");
                     }
@@ -216,16 +154,16 @@
                     }
                     if (data['message']['status'] === 'success') {
                         swal("", data['message']['description'], "success");
-                        var table = $('#datatablesDisease').DataTable();
+                        var table = $('#datatablesCategory').DataTable();
                         $.fn.dataTable.ext.errMode = 'none';
                         table.row.add(
                             [
-                                data['disease']['id'],
-                                data['disease']['name'],
+                                data['categories']['id'],
+                                data['categories']['name'],
                                 function (id) {
                                     return '<div class="text-center">'
-                                        + '<a onclick= "editDisease(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                        + '<a onclick= "editCategory(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteCategory(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                                         + '</div>';
                                 }
                             ]
@@ -237,12 +175,80 @@
                 .fail(function (error) {
                     console.log(error);
                 });
+
+        });
+
+        $('#categoryFormEdit').on('submit', function (event) {
+            $("#categoryFormEdit").validate({
+                rules: {
+                    name: "required",
+                    description: "required"
+                },
+                messages: {
+                    name: "Please fill name",
+                    description: "Please fill description"
+                }
+            });
+            if (!$(this).valid()) return false;
+            event.preventDefault();
+
+            $('#editCategoryModal').modal('hide');
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/admin/module/category/' + $('#editId').val(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: 'POST',
+                dataType: 'json',
+                data: formData,
+                processData: false,
+                contentType: false
+            })
+                .done(function (data) {
+                    if (data['message']['status'] === 'invalid') {
+                        swal("", data['message']['description'], "error");
+                    }
+                    if (data['message']['status'] === 'existed') {
+                        swal("", data['message']['description'], "error");
+                    }
+                    if (data['message']['status'] === 'success') {
+                        swal("", data['message']['description'], "success");
+                        var table = $('#datatablesCategory').DataTable();
+                        $.fn.dataTable.ext.errMode = 'none';
+                        var rows = table.rows().data();
+                        for (var i = 0; i < rows.length; i++) {
+                            console.log(rows[i].id);
+                            console.log(data['category']['id']);
+
+                            if (rows[i].id == data['category']['id']) {
+                                console.log("run");
+                                table.row(this).data(
+                                    [
+                                        data['category']['name'],
+                                        function (id) {
+                                            return '<div class="text-center">'
+                                                + '<a onclick= "editCategory(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                                + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteCategory(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                                + '</div>';
+                                        }
+                                    ]
+                                ).draw();
+                            }
+                        }
+                    } else if (data.status === 'error') {
+                        swal("", data['message']['description'], "error");
+                    }
+                })
+                .fail(function (error) {
+                    console.log(error);
+                });
         });
     });
-    function deleteDisease(id) {
+    function deleteCategory(id) {
         console.log(id);
         $.ajax({
-            url: '/admin/module/disease/' + id,
+            url: '/admin/module/category/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -258,7 +264,7 @@
 
                 if (data['message']['status'] === 'success') {
                     swal("", data['message']['description'], "success");
-                    var table = $('#datatablesDisease').DataTable();
+                    var table = $('#datatablesCategory').DataTable();
                     $.fn.dataTable.ext.errMode = 'none';
                     var rows = table.rows().data();
                     for (var i = 0; i < rows.length; i++) {
@@ -275,18 +281,33 @@
                 console.log(error);
             });
     }
-    function editDisease(id) {
-        console.log(id);
+
+    /**
+     * We will test when user click edit and show Form.
+     * @param id
+     */
+
+    function editCategory(id) {
         $.ajax({
-            url: '/admin/module/disease/' + id,
+            url: '/admin/module/category/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'json',
-            type: "DELETE",
+            type: "GET",
             beforeSend: function () {
                 $('#modal-loading').modal('show');
             }
         })
+            .done(function (data) {
+                $('#editName').val(data['categories']['name']);
+                $('#editId').val(data['categories']['id']);
+                $('#modal-loading').modal('hide');
+                $('#editCategoryModal').modal('show');
+            })
+            .fail(function (error) {
+                console.log(error);
+            });
+
     }
 </script>

@@ -31,4 +31,19 @@ class Category extends Model
         return DB::table('categories')->get();
     }
 
+    public function getByName($name) {
+        return DB::table('categories')->where('name', $name)->first();
+    }
+    public function deleteById($id){
+        return DB::table('categories')->where('id',$id)->delete();
+    }
+    public function getById($id) {
+        return DB::table('categories')->where('id', $id)->first();
+    }
+
+    public function updateById($id, $data)
+    {
+        return DB::table('categories')->where('id', $id)->update(['name'=>$data['name']]);
+    }
+
 }

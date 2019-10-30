@@ -14,9 +14,9 @@ class CreateCategorysTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id', 11);
+            $table->increments('id', 11);
             $table->string('name', 255);
-            /*$table->string('token', 255)->nullable();*/
+            $table->integer('symptom_id');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiseaseTable extends Migration
+class CreateRolepermissionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class CreateDiseaseTable extends Migration
      * @return void
      */
     public function up()
-
     {
-        Schema::create('disease', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('disease', 255);
-            $table->integer('symptom_id');
+        Schema::create('rolepermission', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('role_id');
+            $table->integer('permission_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateDiseaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('disease');
+        Schema::dropIfExists('rolepermission');
     }
 }

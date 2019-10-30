@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
      * php artisan make:controller \Dashboard\UserController --resource
      */
     Route::resource('/admin', 'Dashboard\DashboardController');
+    Route::resource('/admin/module/category', 'Dashboard\CategoryController');
+    Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('categoryss.update');
     Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
     /**
      * Now, we will use run command php artisan route:list
@@ -80,10 +82,11 @@ Route::group(['middleware' => 'auth'], function () {
      */
     Route::get('admin/ajax/book', 'Navigation\NavigationController@book')->name('ajax.book');
 
+    Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
+
     Route::get('admin/ajax/disease', 'Navigation\NavigationController@disease')->name('ajax.disease');
 
     Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
 });
 
-Route::get('test', 'Dashboard\DiseaseController@index')->name('test');
 

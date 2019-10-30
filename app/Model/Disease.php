@@ -11,7 +11,7 @@ class Disease extends Model
 {
     use Notifiable;
 
-    protected $table = "disease";
+    protected $table = "category";
 
     protected $fillable = [
     ];
@@ -27,8 +27,19 @@ class Disease extends Model
         return DB::table('disease')->insert($data);
     }
 
+    public function getByName($name) {
+        return DB::table('disease')->where('name', $name)->first();
+    }
+    public function getById($id) {
+        return DB::table('disease')->where('id', $id)->first();
+    }
+
+
     public function get() {
         return DB::table('disease')->get();
+    }
+    public function deleteById($id) {
+        return DB::table('disease')->where('id', $id)->delete();
     }
 
 }
