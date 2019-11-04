@@ -81,7 +81,7 @@
     </div>
 </div>
 @include('modal.disease.create')
-
+@include('modal.disease.edit')
 <script>
     /**
      * This code to get all diseases from Server and
@@ -129,7 +129,7 @@
         // This command is shown
         $('#createDiseaseModal').modal('show');
         // This command is used to clear form when you open again.
-        $('#categoryFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+        $('#diseaseFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
     });
     /**
      * When you click button <button type="submit" class="btn btn-primary">Create</button>
@@ -275,6 +275,76 @@
                 console.log(error);
             });
     }
+
+    $('#diseaseFormEdit').on('submit', function (event) {
+        $("#diseaseFormEditFormEdit").validate({
+            rules: {
+                name: "required",
+                description: "required"
+            },
+            messages: {
+                name: "Please fill name",
+                description: "Please fill description"
+            }
+        });
+        if (!$(this).valid()) return false;
+        event.preventDefault();
+
+        $('#editDiseaseModal').modal('hide');
+        var formData = new FormData(this);
+        $.ajax({
+            url: '/admin/module/disease/' + $('#editId').val(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false
+        })
+            .done(function (data) {
+                if (data['message']['status'] === 'invalid') {
+                    swal("", data['message']['description'], "error");
+                }
+                if (data['message']['status'] === 'existed') {
+                    swal("", data['message']['description'], "error");
+                }
+                if (data['message']['status'] === 'success') {
+                    swal("", data['message']['description'], "success");
+                    var table = $('#datatablesDisease').DataTable();
+                    $.fn.dataTable.ext.errMode = 'none';
+                    var rows = table.rows().data();
+                    for (var i = 0; i < rows.length; i++) {
+                        console.log(rows[i].id);
+                        console.log(data['disease']['id']);
+
+                        if (rows[i].id == data['disease']['id']) {
+                            console.log("run");
+                            table.row(this).data(
+                                [
+                                    data['disease']['name'],
+                                    function (id) {
+                                        return '<div class="text-center">'
+                                            + '<a onclick= "editDisease(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                            + '</div>';
+                                    }
+                                ]
+                            ).draw();
+                        }
+                    }
+                } else if (data.status === 'error') {
+                    swal("", data['message']['description'], "error");
+                }
+            })
+            .fail(function (error) {
+                console.log(error);
+            });
+    });
+
+
+
     function editDisease(id) {
         console.log(id);
         $.ajax({
@@ -283,10 +353,19 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'json',
-            type: "DELETE",
+            type: "GET",
             beforeSend: function () {
                 $('#modal-loading').modal('show');
             }
         })
+            .done(function (data) {
+                $('#editName').val(data['disease']['name']);
+                $('#editId').val(data['disease']['id']);
+                $('#modal-loading').modal('hide');
+                $('#editDiseaseModal').modal('show');
+            })
+            .fail(function (error) {
+                console.log(error);
+            });
     }
 </script>

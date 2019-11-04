@@ -43,7 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
      */
     Route::resource('/admin', 'Dashboard\DashboardController');
     Route::resource('/admin/module/category', 'Dashboard\CategoryController');
-    Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('categoryss.update');
+    Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
+    Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
     Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
     /**
      * Now, we will use run command php artisan route:list

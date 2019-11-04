@@ -119,7 +119,25 @@ class DiseaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $cat = $this->mModelCat->getById($id);
+        if ($cat == null) {
+            return json_encode(([
+                'message' => [
+                    'status' => "error",
+                    'description' => "The customer didn't exist in our system!"
+                ]
+            ]));
+        } else {
+            return json_encode(([
+                'message' => [
+                    'status' => "success",
+                    'description' => ""
+                ],
+                'disease' => $cat,
+            ])
+
+            );
+        }
     }
 
     /**
@@ -142,9 +160,51 @@ class DiseaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $credentials = $request->only('name');
+        $rules = [
+            'name' => 'required',
+        ];
+        $customMessages = [
+            'required' => 'Please fill in form'
+        ];
 
+        $validator = Validator::make($credentials, $rules, $customMessages);
+        if ($validator->fails()) {
+            return json_encode(([
+                'message' => [
+                    'status' => "invalid",
+                    'description' => $validator->errors()->first()
+                ]
+            ]));
+        } else {
+            if ($this->mModelCat->getByName($request->name)) {
+                return json_encode(([
+                    'message' => [
+                        'status' => "invalid",
+                        'description' => "The category already exists in the system!"
+                    ]
+                ]));
+            } else {
+                if ($this->mModelCat->updateById($id, $request) > 0){
+                    return json_encode(([
+                        'message' => [
+                            'status' => "success",
+                            'description' => "Update the category success!"
+                        ],
+                        'disease' => $this->mModelCat->getById($id)
+                    ]));
+                }
+                else {
+                    return json_encode(([
+                        'message' => [
+                            'status' => "error",
+                            'description' => "Update the category failure!"
+                        ]
+                    ]));
+                }
+            }
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *

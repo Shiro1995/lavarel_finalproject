@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 // https://reference.yourdictionary.com/books-literature/different-types-of-books.html
-class Disease extends Model
+class Users extends Model
 {
     use Notifiable;
 
@@ -24,27 +24,22 @@ class Disease extends Model
 
     public function insert($data)
     {
-        return DB::table('disease')->insert($data);
+        return DB::table('users')->insert($data);
     }
 
     public function getByName($name) {
-        return DB::table('disease')->where('name', $name)->first();
+        return DB::table('users')->where('name', $name)->first();
     }
     public function getById($id) {
-        return DB::table('disease')->where('id', $id)->first();
+        return DB::table('users')->where('id', $id)->first();
     }
 
 
     public function get() {
-        return DB::table('disease')->get();
+        return DB::table('users')->get();
     }
     public function deleteById($id) {
-        return DB::table('disease')->where('id', $id)->delete();
-    }
-
-    public function updateById($id, $data)
-    {
-        return DB::table('disease')->where('id', $id)->update(['name'=>$data['name']]);
+        return DB::table('users')->where('id', $id)->delete();
     }
 
 }

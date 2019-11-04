@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Model\Category;
 use App\Model\Disease;
+use App\Model\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -16,7 +17,7 @@ class CategoryController extends Controller
     protected $mModelCat;
     use HasTimestamps;
 
-    public function __construct(Category $cat) {
+    public function __construct(Users $cat) {
         $this->middleware('auth');
         $this->mModelCat = $cat;
     }
@@ -34,6 +35,7 @@ class CategoryController extends Controller
             $arr = array(
                 'id' => $category->id,
                 'name' => $category->name,
+                'email'=>$category->email,
                 'manipulation' => $category->id
             );
             $collections->push($arr);
@@ -118,6 +120,7 @@ class CategoryController extends Controller
                 ]
             ]));
         } else {
+
             return json_encode(([
                 'message' => [
                     'status' => "success",
