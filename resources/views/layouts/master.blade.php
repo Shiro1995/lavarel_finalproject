@@ -68,9 +68,9 @@
                       <li><a id="nav_view_category" href="javascript:void(0)">View Category</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-home"></i> User <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-home"></i> Symptoms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a id="nav_view_book" href="javascript:void(0)">View User</a></li>
+                      <li><a id="nav_view_symptom" href="javascript:void(0)">View Symptom</a></li>
                     </ul>
                   </li>
 

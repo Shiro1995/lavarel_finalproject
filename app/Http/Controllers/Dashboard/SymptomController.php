@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Model\Disease;
+use App\Model\Symptoms;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Support\Facades\Validator;
 
-class DiseaseController extends Controller
+class SymptomController extends Controller
 {
 
     protected $mModelCat;
     use HasTimestamps;
 
-    public function __construct(Disease $cat) {
+    public function __construct(Symptoms $cat) {
         $this->middleware('auth');
         $this->mModelCat = $cat;
     }

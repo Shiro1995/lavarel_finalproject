@@ -39,4 +39,13 @@ class NavigationController extends Controller
         ]);
         echo json_encode($response_array);
     }
+    public function symptom() {
+        $returnHTML = view('ajax.page.symptom.index')->render();
+        $response_array = ([
+            'success' => true,
+            'html' => $returnHTML
+        ]);
+        echo json_encode($response_array);
+    }
+
 }

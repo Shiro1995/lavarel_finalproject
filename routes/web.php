@@ -43,9 +43,14 @@ Route::group(['middleware' => 'auth'], function () {
      */
     Route::resource('/admin', 'Dashboard\DashboardController');
     Route::resource('/admin/module/category', 'Dashboard\CategoryController');
+    Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
+    Route::resource('/admin/module/symptom', 'Dashboard\SymptomController');
     Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
     Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
-    Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
+    Route::post('/admin/module/symptom/{symptom}', 'Dashboard\SymptomController@update')->name('symptom.update');
+
+
+
     /**
      * Now, we will use run command php artisan route:list
      *
@@ -81,7 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
     /**
      * Using Ajax to navigate page
      */
-    Route::get('admin/ajax/book', 'Navigation\NavigationController@book')->name('ajax.book');
+    Route::get('admin/ajax/symptom', 'Navigation\NavigationController@symptom')->name('ajax.symptom');
 
     Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
 

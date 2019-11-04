@@ -11,18 +11,18 @@
         <div class="page-title">
 
             <div class="x_title">
-                <button id="newDisease" class="btn btn-default" type="button">New Disease</button>
+                <button id="newSymptom" class="btn btn-default" type="button">New Symptom</button>
                 <div class="clearfix"></div>
             </div>
             <div class="title_right">
-{{--                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">--}}
-{{--                    <div class="input-group">--}}
-{{--                        <input type="text" class="form-control" placeholder="Search for...">--}}
-{{--                        <span class="input-group-btn">--}}
-{{--                      <button class="btn btn-default" type="button">Go!</button>--}}
-{{--                    </span>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">--}}
+                {{--                    <div class="input-group">--}}
+                {{--                        <input type="text" class="form-control" placeholder="Search for...">--}}
+                {{--                        <span class="input-group-btn">--}}
+                {{--                      <button class="btn btn-default" type="button">Go!</button>--}}
+                {{--                    </span>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
             </div>
         </div>
 
@@ -58,20 +58,20 @@
                             DataTables has most features enabled by default, so all you need to do to use it with your
                             own tables is to call the construction function: <code>$().DataTable();</code>
                         </p>
-                        <table id="datatablesDisease" class="table table-striped table-bordered">
+                        <table id="datatablesSymptom" class="table table-striped table-bordered">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Manipulation</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Manipulation</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -80,15 +80,15 @@
         </div>
     </div>
 </div>
-@include('modal.disease.create')
-@include('modal.disease.edit')
+@include('modal.symptom.create')
+@include('modal.symptom.edit')
 <script>
     /**
      * This code to get all diseases from Server and
      * show it in DataTables.
      */
     $(document).ready(function () {
-        $('#datatablesDisease').dataTable({
+        $('#datatablesSymptom').dataTable({
             "pageLength": 15,
             "lengthMenu": [[15,30,45,-1], [15,30,45,'All']],
             'paging'      : true,
@@ -101,23 +101,19 @@
             "serverSide": true,
 
             "ajax": {
-                url: '/admin/module/disease',
+                url: '/admin/module/symptom',
                 type: 'GET'
             },
 
-
-
             "columns": [
                 { "data": "id" },
-                { "data": "name", "render": function (name) {
-                        return '<a id="nav_view_symptom" href="javascript:void(0)">aaa</a>'
-                    }},
+                { "data": "name"},
                 { "data": "manipulation", "render": function (id) {
-                    return '<div class="text-center">'
-                        + '<a onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
-                        + '</div>';
-                }}
+                        return '<div class="text-center">'
+                            + '<a onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                            + '</div>';
+                    }}
             ]
         });
     });
