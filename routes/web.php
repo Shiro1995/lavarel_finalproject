@@ -46,10 +46,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
     Route::resource('/admin/module/symptom', 'Dashboard\SymptomController');
     Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
-    Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
+        Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
     Route::post('/admin/module/symptom/{symptom}', 'Dashboard\SymptomController@update')->name('symptom.update');
 
 
+    Route::get('asdf/teset','Dashboard\Diseasecontroller@fetchDisease')->name('asdsa.test');
 
     /**
      * Now, we will use run command php artisan route:list
@@ -94,5 +95,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
 });
+
 
 

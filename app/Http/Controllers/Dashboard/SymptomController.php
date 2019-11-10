@@ -59,6 +59,7 @@ class SymptomController extends Controller
      */
     public function store(Request $request)
     {
+        \Log::info('hihi');
         $credentials = $request->only('name');
         $rules = [
             'name' => 'required'

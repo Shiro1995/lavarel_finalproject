@@ -87,6 +87,7 @@
      * This code to get all diseases from Server and
      * show it in DataTables.
      */
+
     $(document).ready(function () {
         $('#datatablesDisease').dataTable({
             "pageLength": 15,
@@ -109,9 +110,7 @@
 
             "columns": [
                 { "data": "id" },
-                { "data": "name", "render": function (name) {
-                        return '<a id="nav_view_symptom" href="javascript:void(0)">aaa</a>'
-                    }},
+                { "data": "name"},
                 { "data": "manipulation", "render": function (id) {
                     return '<div class="text-center">'
                         + '<a onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
@@ -363,8 +362,8 @@
             }
         })
             .done(function (data) {
-                $('#editName').val(data['disease']['name']);
                 $('#editId').val(data['disease']['id']);
+                $('#editName').val(data['disease']['name']);
                 $('#modal-loading').modal('hide');
                 $('#editDiseaseModal').modal('show');
             })

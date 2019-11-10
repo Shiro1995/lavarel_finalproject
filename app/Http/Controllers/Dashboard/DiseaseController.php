@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Model\Disease;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -12,12 +13,12 @@ use Illuminate\Support\Facades\Validator;
 class DiseaseController extends Controller
 {
 
-    protected $mModelCat;
+    protected $mModelDisease;
     use HasTimestamps;
 
-    public function __construct(Disease $cat) {
+    public function __construct(Disease $diseae) {
         $this->middleware('auth');
-        $this->mModelCat = $cat;
+        $this->mModelDisease = $diseae;
     }
 
     /**
@@ -27,13 +28,13 @@ class DiseaseController extends Controller
      */
     public function index()
     {
-        $categories = $this->mModelCat->get();
+        $categories = $this->mModelDisease->get();
         $collections = collect();
         foreach ($categories as $category) {
             $arr = array(
                 'id' => $category->id,
                 'name' => $category->name,
-                'manipulation' => $category->id
+                'manipulation' => $category->id,
             );
             $collections->push($arr);
         }
@@ -47,7 +48,23 @@ class DiseaseController extends Controller
      */
     public function create()
     {
-        //
+        $goutteClient = new \Goutte\Client();
+        $guzzleClient = new Client([
+            'timeout' => 60,
+            'verify' => false,
+        ]);
+        $goutteClient->setClient($guzzleClient);
+        $url = "https://hellobacsi.com/suc-khoe/benh";
+        $crawler = $goutteClient->request('GET', $url);
+
+        $crawler->filter('section#section-a')->each(function($node){
+            $node->filter('div.hc2-item-row')->each(function($node1){
+                \Log::info($node1->html());
+//                $node1->filter('span')->each(function($node2) {
+//                    \Log::info($node2->text());
+//                });
+            });
+        });
     }
 
     /**
@@ -58,6 +75,7 @@ class DiseaseController extends Controller
      */
     public function store(Request $request)
     {
+        \Log::info('hello');
         $credentials = $request->only('name');
         $rules = [
             'name' => 'required'
@@ -75,7 +93,7 @@ class DiseaseController extends Controller
                 ]
             ]));
         } else {
-            if ($this->mModelCat->getByName($request->name) > 0) {
+            if ($this->mModelDisease->getByName($request->name) > 0) {
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
@@ -83,7 +101,7 @@ class DiseaseController extends Controller
                     ]
                 ]));
             } else {
-                if ($this->mModelCat->insert(array([
+                if ($this->mModelDisease->insert(array([
 //                        'id' => 0,
                         'name' => $request->name,
                         'created_at' => $this->freshTimestamp(),
@@ -95,7 +113,7 @@ class DiseaseController extends Controller
                             'status' => "success",
                             'description' => "Create a new category successfully"
                         ],
-                        'disease' => $this->mModelCat->getByName($request->name)
+                        'disease' => $this->mModelDisease->getByName($request->name)
                     ]));
                 } else {
                     return json_encode(([
@@ -116,9 +134,32 @@ class DiseaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function fetchDisease()
+    {
+        $goutteClient = new \Goutte\Client();
+        $guzzleClient = new Client([
+            'timeout' => 60,
+            'verify' => false,
+        ]);
+        $goutteClient->setClient($guzzleClient);
+        $url = "https://hellobacsi.com/suc-khoe/benh";
+        $crawler = $goutteClient->request('GET', $url);
+
+        $crawler->filter('section#section-a')->each(function($node){
+            $node->filter('div.hc2-item-row')->each(function($node1){
+                \Log::info($node1->html());
+//                $node1->filter('span')->each(function($node2) {
+//                    \Log::info($node2->text());
+//                });
+            });
+        });
+
+
+    }
+
     public function show($id)
     {
-        $cat = $this->mModelCat->getById($id);
+        $cat = $this->mModelDisease->getById($id);
         if ($cat == null) {
             return json_encode(([
                 'message' => [
@@ -176,7 +217,7 @@ class DiseaseController extends Controller
                 ]
             ]));
         } else {
-            if ($this->mModelCat->getByName($request->name)) {
+            if ($this->mModelDisease->getByName($request->name)) {
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
@@ -184,13 +225,13 @@ class DiseaseController extends Controller
                     ]
                 ]));
             } else {
-                if ($this->mModelCat->updateById($id, $request) > 0){
+                if ($this->mModelDisease->updateById($id, $request) > 0){
                     return json_encode(([
                         'message' => [
                             'status' => "success",
                             'description' => "Update the category success!"
                         ],
-                        'disease' => $this->mModelCat->getById($id)
+                        'disease' => $this->mModelDisease->getById($id)
                     ]));
                 }
                 else {
@@ -214,9 +255,9 @@ class DiseaseController extends Controller
 
     public function destroy($id)
     {
-        $cat = $this->mModelCat->deleteById($id);
+        $cat = $this->mModelDisease->deleteById($id);
         //Log::info($id);
-        if ( $this->mModelCat->getById($id) != null) {
+        if ( $this->mModelDisease->getById($id) != null) {
             return json_encode(([
                 'message' => [
                     'status' => "error",

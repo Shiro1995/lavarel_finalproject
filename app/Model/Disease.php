@@ -47,4 +47,6 @@ class Disease extends Model
         return DB::table('disease')->where('id', $id)->update(['name'=>$data['name']]);
     }
 
+
+
 }

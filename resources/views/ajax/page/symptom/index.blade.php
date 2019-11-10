@@ -125,11 +125,11 @@
      * - Check id of modal to show createCategoryModal => you can create any modal different for object
      * For example: createDiseaseModal, createSymphonyModal,....
      */
-    $('#newDisease').click(function () {
+    $('#newSymptom').click(function () {
         // This command is shown
-        $('#createDiseaseModal').modal('show');
+        $('#createSymptomModal').modal('show');
         // This command is used to clear form when you open again.
-        $('#diseaseFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+        $('#SymptomFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
     });
     /**
      * When you click button <button type="submit" class="btn btn-primary">Create</button>
@@ -137,7 +137,7 @@
      * Normally,
      */
     $(document).ready(function () {
-        $('#diseaseFormCreate').on('submit', function (event) {
+        $('#SymptomFormCreate').on('submit', function (event) {
             /**
              * This code blocks to validate Form using Jquery validate.
              * As I told you before: https://thienanblog.com/javascript/jquery/huong-dan-su-dung-jquery-validation/
@@ -147,7 +147,7 @@
              * rules: allow you to add field need to validate: name <name get from attribute id in tag input)
              * messages: allow you to show message error when user didn't obey your rules with the same field.
              */
-            $("#diseaseFormCreate").validate({
+            $("#SymptomFormCreate").validate({
                 rules: {
                     name: "required"
                 },
@@ -184,7 +184,7 @@
              */
             var formData = new FormData(this);
             $.ajax({
-                url: '/admin/module/disease', // URL to submit
+                url: '/admin/module/symptom', // URL to submit
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
                 },
