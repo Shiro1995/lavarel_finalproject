@@ -110,7 +110,7 @@
                 { "data": "name"},
                 { "data": "manipulation", "render": function (id) {
                         return '<div class="text-center">'
-                            + '<a id="name" onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px">{$}</a>'
+                            + '<a id="name" onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
                             + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                             + '</div>';
                     }}

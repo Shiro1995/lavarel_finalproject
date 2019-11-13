@@ -5,7 +5,9 @@
  * Date: 4/7/2018
  * Time: 11:11 AM
  */
+
 ?>
+
 <div id="page_content_ajax" class="right_col" role="main">
     <div class="">
         <div class="page-title">
@@ -82,6 +84,7 @@
 </div>
 @include('modal.disease.create')
 @include('modal.disease.edit')
+
 <script>
     /**
      * This code to get all diseases from Server and
@@ -116,7 +119,7 @@
                         + '<a onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
                         + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                         + '</div>';
-                }}
+                }},
             ]
         });
     });
@@ -152,10 +155,12 @@
              */
             $("#diseaseFormCreate").validate({
                 rules: {
-                    name: "required"
+                    name: "required",
+                    create_at: "required"
                 },
                 messages: {
-                    name: "Vui lòng nhập name"
+                    name: "Vui lòng nhập name",
+                    create_at: "Vui lòng nhập Ngày tạo",
                 }
             });
 
@@ -179,7 +184,7 @@
             /**
              * After you've done all manipulations above, you will hide modal => hide form and conduct submit your data.
              */
-            $('#createDiseaseModal').modal('hide');
+            // $('#createDiseaseModal').modal('hide');
 
             /**
              * Get all value by using attribute name in Form.

@@ -14,12 +14,7 @@ class NavigationController extends Controller
      * Ajax, using those methods to navigate to Page in DashBoard screen
      */
     public function dashboard() {
-        $returnHTML = view('ajax.page.index')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        return view('ajax.page.disease.index');
     }
 
     public function disease() {
