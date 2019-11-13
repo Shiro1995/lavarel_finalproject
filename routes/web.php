@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    \Log::info('adsfsadfdsf');
     return view('welcome');
 });
 
@@ -50,7 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/admin/module/symptom/{symptom}', 'Dashboard\SymptomController@update')->name('symptom.update');
 
 
-    Route::get('asdf/teset','Dashboard\Diseasecontroller@fetchDisease')->name('asdsa.test');
+
 
     /**
      * Now, we will use run command php artisan route:list
@@ -97,4 +98,4 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-
+Route::get('asdf/teset','Dashboard\Diseasecontroller@fetchDisease')->name('asdsa.test');

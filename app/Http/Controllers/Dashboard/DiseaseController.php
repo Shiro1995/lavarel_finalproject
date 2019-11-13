@@ -12,12 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class DiseaseController extends Controller
 {
-
+    protected $symptom = '';
     protected $mModelDisease;
     use HasTimestamps;
 
     public function __construct(Disease $diseae) {
-        $this->middleware('auth');
         $this->mModelDisease = $diseae;
     }
 
@@ -48,23 +47,8 @@ class DiseaseController extends Controller
      */
     public function create()
     {
-        $goutteClient = new \Goutte\Client();
-        $guzzleClient = new Client([
-            'timeout' => 60,
-            'verify' => false,
-        ]);
-        $goutteClient->setClient($guzzleClient);
-        $url = "https://hellobacsi.com/suc-khoe/benh";
-        $crawler = $goutteClient->request('GET', $url);
 
-        $crawler->filter('section#section-a')->each(function($node){
-            $node->filter('div.hc2-item-row')->each(function($node1){
-                \Log::info($node1->html());
-//                $node1->filter('span')->each(function($node2) {
-//                    \Log::info($node2->text());
-//                });
-            });
-        });
+
     }
 
     /**
@@ -127,6 +111,20 @@ class DiseaseController extends Controller
         }
     }
 
+    public  function  fetchsymptom(string $name)
+    {
+        \Log::info('say hi');
+        $goutteClient = new \Goutte\Client();
+        $guzzleClient = new Client([
+            'timeout' => 60,
+            'verify' => false,
+        ]);
+        $goutteClient->setClient($guzzleClient);
+        $url2 = "https://hellobacsi.com/benh/".$name;
+
+//        $crawler = $goutteClient->request('GET', $url2);
+        \Log::info($url2);
+    }
 
     /**
      * Display the specified resource.
@@ -134,28 +132,40 @@ class DiseaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function fetchDisease()
-    {
-        $goutteClient = new \Goutte\Client();
-        $guzzleClient = new Client([
-            'timeout' => 60,
-            'verify' => false,
-        ]);
-        $goutteClient->setClient($guzzleClient);
-        $url = "https://hellobacsi.com/suc-khoe/benh";
-        $crawler = $goutteClient->request('GET', $url);
+        public function fetchDisease()
+        {
 
-        $crawler->filter('section#section-a')->each(function($node){
-            $node->filter('div.hc2-item-row')->each(function($node1){
-                \Log::info($node1->html());
-//                $node1->filter('span')->each(function($node2) {
-//                    \Log::info($node2->text());
-//                });
-            });
-        });
+            $goutteClient = new \Goutte\Client();
+            $guzzleClient = new Client([
+                'timeout' => 60,
+                'verify' => false,
+            ]);
+            $goutteClient->setClient($guzzleClient);
+            $url = "https://hellobacsi.com/suc-khoe/benh";
+
+            $crawler = $goutteClient->request('GET', $url);
+
+            \Log::info('ehllo');
+
+                  $crawler->filter()->each(function ($node) {
+                          $node->filter('a.hb-hc-small-list')->each(function ($node1) {
 
 
-    }
+                              \Log::info( $node1->html());
+//                              $this->mModelDisease->insert(array([
+////                        'id' => 0,
+//                                  'name' => $node2->text(),
+//                                  'created_at' => $this->freshTimestamp(),
+//                                  'updated_at' => $this->freshTimestamp()
+//                              ]));
+                          });
+
+                  });
+
+
+
+
+        }
 
     public function show($id)
     {

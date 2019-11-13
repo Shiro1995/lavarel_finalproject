@@ -48,7 +48,11 @@ class SymptomController extends Controller
      */
     public function create()
     {
-        //
+        \Log::info('chao ban');
+    }
+    protected function print()
+    {
+        \Log::info('hhihihihdsfsadf1');
     }
 
     /**
