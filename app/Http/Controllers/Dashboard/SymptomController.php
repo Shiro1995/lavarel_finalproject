@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Model\Disease;
 use App\Model\Symptoms;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -122,6 +123,37 @@ class SymptomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function fetchDisease()
+    {
+
+        $goutteClient = new \Goutte\Client();
+        $guzzleClient = new Client([
+            'timeout' => 60,
+            'verify' => false,
+        ]);
+        $goutteClient->setClient($guzzleClient);
+        $url = "https://hellobacsi.com/benh/alkapton-nieu/";
+
+        $crawler = $goutteClient->request('GET', $url);
+
+        \Log::info('ehllo');
+
+        $crawler->filter('section#h-trieu-chung-thuong-gap')->each(function ($node) {
+            $node->filter('p')->each(function ($node1) {
+
+
+                \Log::info($node1->text());
+                $this->mModelCat->insert(array([
+//                        'id' => 0,
+                    'name' => $node1->text(),
+                    'created_at' => $this->freshTimestamp(),
+                    'updated_at' => $this->freshTimestamp()
+                ]));
+            });
+
+        });
+    }
     public function show($id)
     {
         $cat = $this->mModelCat->getById($id);

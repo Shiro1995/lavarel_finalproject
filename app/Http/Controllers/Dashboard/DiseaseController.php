@@ -141,23 +141,23 @@ class DiseaseController extends Controller
                 'verify' => false,
             ]);
             $goutteClient->setClient($guzzleClient);
-            $url = "https://hellobacsi.com/suc-khoe/benh";
+            $url = "https://hellobacsi.com/benh/alkapton-nieu/";
 
             $crawler = $goutteClient->request('GET', $url);
 
             \Log::info('ehllo');
 
-                  $crawler->filter()->each(function ($node) {
-                          $node->filter('a.hb-hc-small-list')->each(function ($node1) {
+                  $crawler->filter('section#h-trieu-chung-thuong-gap')->each(function ($node) {
+                          $node->filter('p')->each(function ($node1) {
 
 
-                              \Log::info( $node1->html());
-//                              $this->mModelDisease->insert(array([
-////                        'id' => 0,
+                              \Log::info( $node1->text());
+                              $this->mModelDisease->insert(array([
+//                        'id' => 0,
 //                                  'name' => $node2->text(),
-//                                  'created_at' => $this->freshTimestamp(),
-//                                  'updated_at' => $this->freshTimestamp()
-//                              ]));
+                                  'created_at' => $this->freshTimestamp(),
+                                  'updated_at' => $this->freshTimestamp()
+                              ]));
                           });
 
                   });
@@ -166,7 +166,28 @@ class DiseaseController extends Controller
 
 
         }
+    public function showSymptom($id)
+    {
+        $cat = $this->mModelDisease->getSymptons($id);
+        if ($cat == null) {
+            return json_encode(([
+                'message' => [
+                    'status' => "error",
+                    'description' => "The customer didn't exist in our system!"
+                ]
+            ]));
+        } else {
+            return json_encode(([
+                'message' => [
+                    'status' => "success",
+                    'description' => ""
+                ],
+                'disease' => $cat,
+            ])
 
+            );
+        }
+    }
     public function show($id)
     {
         $cat = $this->mModelDisease->getById($id);

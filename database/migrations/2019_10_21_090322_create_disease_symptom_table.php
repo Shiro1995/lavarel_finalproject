@@ -17,6 +17,7 @@ class CreateDiseaseSymptomTable extends Migration
             $table->increments('id');
             $table->integer('disease_id');
             $table->integer('symptom_id');
+
             $table->timestamps();
         });
     }

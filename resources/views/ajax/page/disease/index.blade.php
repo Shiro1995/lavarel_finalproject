@@ -143,47 +143,17 @@
      * Normally,
      */
     $(document).ready(function () {
-        $('#diseaseFormCreate').on('submit', function (event) {
-            /**
-             * This code blocks to validate Form using Jquery validate.
-             * As I told you before: https://thienanblog.com/javascript/jquery/huong-dan-su-dung-jquery-validation/
-             * Please take a look and observe if you want to understand validate more in blade file.
-             *
-             * What does it mean?
-             * rules: allow you to add field need to validate: name <name get from attribute id in tag input)
-             * messages: allow you to show message error when user didn't obey your rules with the same field.
-             */
+        $('#diseaseFormCreate').on('submit',function (event) {
             $("#diseaseFormCreate").validate({
                 rules: {
                     name: "required",
-                    create_at: "required"
                 },
                 messages: {
                     name: "Vui lòng nhập name",
-                    create_at: "Vui lòng nhập Ngày tạo",
                 }
             });
-
-            /**
-             * This command is check validate successfully. If it's failure and return false.
-             * You can go to the next step.
-             * If you remove this line and you ignore check validation in blade.
-             * The code blocks above doesn't mean.
-             */
             if (!$(this).valid()) return false;
-
-            /**
-             * event.preventDefault() to prevent navigate to another page.
-             * Basic of Ajax, it call inside page and get result inside page.
-             * There are two cases to prevent:
-             * Using this command
-             * If you use tag a and you should add javascript:void(0) in attribute href.
-             */
             event.preventDefault();
-
-            /**
-             * After you've done all manipulations above, you will hide modal => hide form and conduct submit your data.
-             */
             // $('#createDiseaseModal').modal('hide');
 
             /**
@@ -191,6 +161,7 @@
              * @type {FormData}
              */
             var formData = new FormData(this);
+            console.log(...formData);
             $.ajax({
                 url: '/admin/module/disease', // URL to submit
                 headers: {
@@ -204,18 +175,8 @@
             })
                 .done(function (data) {
                     // Request Ajax successfully and get response.
-                    /**
-                     * To know exactly, when you've submit and your Ajax call where.
-                     * Please using php artisan route:list to check route, Controller and Method is called.
-                     * Inside, let's see it:
-                     * admin/module/disease  App\Http\Controllers\Dashboard\DiseaseController@store
-                     * What you are doing here?
-                     * You want to create Category why you navigate to DiseaseController?
-                     * OK. I'm in wrong file.
-                     * Can you understand it?
-                     * a little :D
-                     * I'll try to explain clearly for you and
-                     */
+
+
                     if (data['message']['status'] === 'invalid') {
                         swal("", data['message']['description'], "error");
                     }
@@ -367,6 +328,28 @@
             }
         })
             .done(function (data) {
+                // if(data['message'].status==="success"){
+                //     for( var i = 0; i< data['disease'].length; i++){
+                //         var name0 = data['disease'][i]['name'];
+                //         console.log(i+'a'+name0);
+                //         $('#info_symptom').append(
+                //             '<div class="row" style="margin-top: 20px " id="row'+i+'">' +
+                //             '                            <div class="col-md-9"> \n' +
+                //             '<input disabled name="symptom_name'+i+'" class="form-control" id="symptom'+i+'" value="'+name0+'">' +
+                //             '</div>\n' +
+                //             '      <div class="col-md-3">'+
+                //             ' <button type="button" class="btn btn-secondary btn_remove" id="'+i+'" >X</button>'+
+                //             '                            </div>\n' +
+                //             '                        </div>'
+                //         );
+                //     }
+                // } else {
+                //     $('#info_symptom').append(
+                //         '<div class="input-group" >' +
+                //         '<p>Empty data!</p>' +
+                //         '</div>'
+                //     )
+                // }
                 $('#editId').val(data['disease']['id']);
                 $('#editName').val(data['disease']['name']);
                 $('#modal-loading').modal('hide');

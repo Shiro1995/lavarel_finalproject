@@ -23,7 +23,6 @@
                             <label for="recipient-name" class="col-form-label">Disease Name:</label>
                             <input name="name" class="form-control" id="name"/>
                         </div>
-
                     </div>
                     <div class="form-group">
                         <div class="row">

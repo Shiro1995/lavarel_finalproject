@@ -47,6 +47,21 @@ class Disease extends Model
         return DB::table('disease')->where('id', $id)->update(['name'=>$data['name']]);
     }
 
+    public function getSymptons($id)
+    {
+        $data = DB::table('disease_symptom')->where('disease_id',$id);
+        $idSymptom = array();
+        if($data->count() > 0) {
+            foreach ($data->get() as $item) {
+                array_push($idSymptom, $item->symptom_id);
+            }
+            return DB::table('symptoms')->whereIn('id',$idSymptom)->get();
+        }
+    }
+    public function symptoms()
+    {
+        return $this->belongsToMany(Symptoms::class);
+    }
 
 
 }
