@@ -2,28 +2,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title" id="exampleModalLabel">New Disease</span>
+                <span class="modal-title" id="exampleModalLabel">New Symptom</span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="SymptomFormCreate">
                 <div class="modal-body">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <select class="form-control">
-                                <option selected>Disease</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Disease Name:</label>
-                            <input name="name" class="form-control" id="name"/>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-12">
@@ -44,10 +29,14 @@
                                     </select>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
+                       <div class="col-md-12">
+                           <div class="form-group">
+                               <label for="recipient-name" class="col-form-label">Symptom Name:</label>
+                               <input name="symptom_name" class="form-control" id="name"/>
+                           </div>
+                   </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

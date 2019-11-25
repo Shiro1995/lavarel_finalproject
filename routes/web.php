@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
     Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
     Route::post('/admin/module/symptom/{symptom}', 'Dashboard\SymptomController@update')->name('symptom.update');
-
+    Route::post('/admin/module/symptom/disease/{disease}/', 'Dashboard\Symptomcontroller@addSymptom')->name('dis_symptom.create');
 
 
 
@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
     /**
      * Using Ajax to navigate page
      */
+
     Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
     Route::get('admin/ajax/symptom', 'Navigation\NavigationController@symptom')->name('ajax.symptom');
 

@@ -58,6 +58,11 @@ class Disease extends Model
             return DB::table('symptoms')->whereIn('id',$idSymptom)->get();
         }
     }
+    public function addsymptoms()
+    {
+            DB::table('disease_symptom')->insert(58);
+    }
+
     public function symptoms()
     {
         return $this->belongsToMany(Symptoms::class);

@@ -29,11 +29,11 @@ class DiseaseController extends Controller
     {
         $categories = $this->mModelDisease->get();
         $collections = collect();
-        foreach ($categories as $category) {
+        foreach ($categories as $Disease) {
             $arr = array(
-                'id' => $category->id,
-                'name' => $category->name,
-                'manipulation' => $category->id,
+                'id' => $Disease->id,
+                'name' => $Disease->name,
+                'manipulation' => $Disease->id,
             );
             $collections->push($arr);
         }
@@ -57,6 +57,7 @@ class DiseaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         \Log::info('hello');
@@ -77,11 +78,11 @@ class DiseaseController extends Controller
                 ]
             ]));
         } else {
-            if ($this->mModelDisease->getByName($request->name) > 0) {
+            if ($this->mModelDisease->getByName($request->name)) {
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'description' => "The Disease already exists in the system!"
                     ]
                 ]));
             } else {
@@ -95,7 +96,7 @@ class DiseaseController extends Controller
                     return json_encode(([
                         'message' => [
                             'status' => "success",
-                            'description' => "Create a new category successfully"
+                            'description' => "Create a new Disease successfully"
                         ],
                         'disease' => $this->mModelDisease->getByName($request->name)
                     ]));
@@ -103,13 +104,14 @@ class DiseaseController extends Controller
                     return json_encode(([
                         'message' => [
                             'status' => "error",
-                            'description' => "Create a new category failure"
+                            'description' => "Create a new Disease failure"
                         ]
                     ]));
                 }
             }
         }
     }
+
 
     public  function  fetchsymptom(string $name)
     {
@@ -169,6 +171,7 @@ class DiseaseController extends Controller
     public function showSymptom($id)
     {
         $cat = $this->mModelDisease->getSymptons($id);
+
         if ($cat == null) {
             return json_encode(([
                 'message' => [
@@ -183,6 +186,7 @@ class DiseaseController extends Controller
                     'description' => ""
                 ],
                 'disease' => $cat,
+
             ])
 
             );
@@ -252,7 +256,7 @@ class DiseaseController extends Controller
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'description' => "The Disease already exists in the system!"
                     ]
                 ]));
             } else {
@@ -260,7 +264,7 @@ class DiseaseController extends Controller
                     return json_encode(([
                         'message' => [
                             'status' => "success",
-                            'description' => "Update the category success!"
+                            'description' => "Update the Disease success!"
                         ],
                         'disease' => $this->mModelDisease->getById($id)
                     ]));
@@ -269,7 +273,7 @@ class DiseaseController extends Controller
                     return json_encode(([
                         'message' => [
                             'status' => "error",
-                            'description' => "Update the category failure!"
+                            'description' => "Update the Disease failure!"
                         ]
                     ]));
                 }
@@ -292,14 +296,14 @@ class DiseaseController extends Controller
             return json_encode(([
                 'message' => [
                     'status' => "error",
-                    'description' => "Delete the category failure",
+                    'description' => "Delete the Disease failure",
                 ]
             ]));
         } else {
             return json_encode(([
                 'message' => [
                     'status' => "success",
-                    'description' => "Delete the category success "
+                    'description' => "Delete the Disease success "
                 ],
                 'id' => $id
             ]));

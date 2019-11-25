@@ -46,5 +46,8 @@ class Symptoms extends Model
     {
         return DB::table('symptoms')->where('id', $id)->update(['name'=>$data['name']]);
     }
-
+    public function addSym($data)
+    {
+        return DB::table('disease_symptom')->insert($data);
+    }
 }

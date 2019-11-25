@@ -31,11 +31,11 @@ class SymptomController extends Controller
     {
         $categories = $this->mModelCat->get();
         $collections = collect();
-        foreach ($categories as $category) {
+        foreach ($categories as $symptom) {
             $arr = array(
-                'id' => $category->id,
-                'name' => $category->name,
-                'manipulation' => $category->id
+                'id' => $symptom->id,
+                'name' => $symptom->name,
+                'manipulation' => $symptom->id
             );
             $collections->push($arr);
         }
@@ -56,6 +56,7 @@ class SymptomController extends Controller
         \Log::info('hhihihihdsfsadf1');
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -64,10 +65,9 @@ class SymptomController extends Controller
      */
     public function store(Request $request)
     {
-        \Log::info('hihi');
-        $credentials = $request->only('name');
+        $credentials = $request->only('symptom_name');
         $rules = [
-            'name' => 'required'
+            'symptom_name' => 'required'
         ];
         $customMessages = [
             'required' => 'Please fill in form'
@@ -82,33 +82,35 @@ class SymptomController extends Controller
                 ]
             ]));
         } else {
-            if ($this->mModelCat->getByName($request->name) > 0) {
+            if ($this->mModelCat->getByName($request->symptom_name)) {
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'description' => "The symptom already exists in the system!"
                     ]
                 ]));
             } else {
                 if ($this->mModelCat->insert(array([
 //                        'id' => 0,
-                        'name' => $request->name,
+                        'name' => $request->symptom_name,
                         'created_at' => $this->freshTimestamp(),
                         'updated_at' => $this->freshTimestamp()
                     ])) > 0) {
+
+
                     // Success
                     return json_encode(([
                         'message' => [
                             'status' => "success",
-                            'description' => "Create a new category successfully"
+                            'description' => "Create a new Symptom successfully"
                         ],
-                        'disease' => $this->mModelCat->getByName($request->name)
+                        'symptom' => $this->mModelCat->getByName($request->symptom_name),
                     ]));
                 } else {
                     return json_encode(([
                         'message' => [
                             'status' => "error",
-                            'description' => "Create a new category failure"
+                            'description' => "Create a new Symptom failure"
                         ]
                     ]));
                 }
@@ -123,6 +125,74 @@ class SymptomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function testadd()
+    {
+        $this->mModelCat->getByName('')->id;
+    }
+    public function addSymptom(Request $request,$id)
+    {
+
+        $credentials = $request->only('symptom_name');
+
+        $rules = [
+            'symptom_name' => 'required'
+        ];
+        $customMessages = [
+            'required' => 'Please fill in form'
+        ];
+
+        $validator = Validator::make($credentials, $rules, $customMessages);
+        if ($validator->fails()) {
+            return json_encode(([
+                'message' => [
+                    'status' => "invalid",
+                    'description' => $validator->errors()->first()
+                ]
+            ]));
+        } else {
+            if ($this->mModelCat->getByName($request->symptom_name)) {
+                return json_encode(([
+                    'message' => [
+                        'status' => "invalid",
+                        'description' => "The symptom already exists in the system!"
+                    ]
+                ]));
+            } else {
+                if ($this->mModelCat->insert(array([
+//                        'id' => 0,
+                        'name' => $request->symptom_name,
+                        'created_at' => $this->freshTimestamp(),
+                        'updated_at' => $this->freshTimestamp()
+                    ])) > 0) {
+                    \Log::info($this->mModelCat->getByName($request->symptom_name)->id);
+                    // Success
+                    if($this->mModelCat->addSym(array([
+                            'disease_id' => $id,
+                            'symptom_id' => $this->mModelCat->getByName($request->symptom_name)->id
+                        ]))>0){
+                    return json_encode(([
+                        'message' => [
+                            'status' => "success",
+                            'description' => "Create a new Symptom successfully"
+                        ],
+                        'symptom' => $this->mModelCat->getByName($request->symptom_name),
+
+//                        $this->mModelCat->insert(array([
+//                                'disease_id' => $id,
+//                                'symptom_id' => $this->mModelCat->getByName($request->symptom_name)['id']
+//                        ]))
+                    ]));
+                }else {
+                    return json_encode(([
+                        'message' => [
+                            'status' => "error",
+                            'description' => "Create a new Symptom failure"
+                        ]
+                    ]));
+                }
+            }}
+        }
+    }
 
     public function fetchDisease()
     {
@@ -137,20 +207,45 @@ class SymptomController extends Controller
 
         $crawler = $goutteClient->request('GET', $url);
 
-        \Log::info('ehllo');
 
         $crawler->filter('section#h-trieu-chung-thuong-gap')->each(function ($node) {
             $node->filter('p')->each(function ($node1) {
-
-
-                \Log::info($node1->text());
-                $this->mModelCat->insert(array([
+                if($this->mModelCat->getByName($node1->text()))
+                { return null;}
+                else{
+                    \Log::info($node1->text());
+                    $this->mModelCat->insert(array([
 //                        'id' => 0,
-                    'name' => $node1->text(),
-                    'created_at' => $this->freshTimestamp(),
-                    'updated_at' => $this->freshTimestamp()
-                ]));
+                        'name' => $node1->text(),
+                        'created_at' => $this->freshTimestamp(),
+                        'updated_at' => $this->freshTimestamp()
+                    ]));
+                    $this->mModelCat->addSym(array([
+                        'disease_id' => 16,
+                        'symptom_id' => $this->mModelCat->getByName($node1->text())->id
+                    ]));
+                }
             });
+            $node->filter('li')->each(function ($node2) {
+//                \Log::info($this->mModelCat->getByName($node2->text()));
+                if($this->mModelCat->getByName($node2->text()))
+                {return null;}
+                else{
+
+                    $this->mModelCat->insert(array([
+//                        'id' => 0,
+                        'name' => $node2->text(),
+                        'created_at' => $this->freshTimestamp(),
+                        'updated_at' => $this->freshTimestamp()
+                    ]));
+                    $this->mModelCat->addSym(array([
+                        'disease_id' => 16,
+                        'symptom_id' => $this->mModelCat->getByName($node2->text())->id
+                    ]));
+
+                }
+            });
+
 
         });
     }
@@ -170,7 +265,7 @@ class SymptomController extends Controller
                     'status' => "success",
                     'description' => ""
                 ],
-                'disease' => $cat,
+                'symptom' => $cat,
             ])
 
             );
@@ -218,7 +313,7 @@ class SymptomController extends Controller
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'description' => "The symptom already exists in the system!"
                     ]
                 ]));
             } else {
@@ -226,16 +321,16 @@ class SymptomController extends Controller
                     return json_encode(([
                         'message' => [
                             'status' => "success",
-                            'description' => "Update the category success!"
+                            'description' => "Update the Symptom success!"
                         ],
-                        'disease' => $this->mModelCat->getById($id)
+                        'symptom' => $this->mModelCat->getById($id)
                     ]));
                 }
                 else {
                     return json_encode(([
                         'message' => [
                             'status' => "error",
-                            'description' => "Update the category failure!"
+                            'description' => "Update the symptom failure!"
                         ]
                     ]));
                 }
@@ -249,7 +344,10 @@ class SymptomController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function test()
+    {
 
+    }
     public function destroy($id)
     {
         $cat = $this->mModelCat->deleteById($id);
@@ -258,14 +356,14 @@ class SymptomController extends Controller
             return json_encode(([
                 'message' => [
                     'status' => "error",
-                    'description' => "Delete the category failure",
+                    'description' => "Delete the symptom failure",
                 ]
             ]));
         } else {
             return json_encode(([
                 'message' => [
                     'status' => "success",
-                    'description' => "Delete the category success "
+                    'description' => "Delete the symptom success "
                 ],
                 'id' => $id
             ]));

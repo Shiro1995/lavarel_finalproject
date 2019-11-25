@@ -29,7 +29,7 @@
                                 <input name="symptom_name" class="form-control" id="symptom_name">
                             </div>
                             <div class="col-md-3">
-                                <button type="button" name="addSymptom" id="addMore" class="btn btn-danger ">+</button>
+                                <button type="button" name="addSymptom" id="addMore" class="btn btn-danger btn_add ">+</button>
                             </div>
                         </div>
 
@@ -37,8 +37,9 @@
                 </div>
                <div>
                    <div class="modal-footer">
-                       <button type="button" name="addSymptom" id="addSymptom" class="btn btn-primary" data-dismiss="modal"> Add Symptom</button>
-                       <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                       <button type="button" class="btn btn-secondary "
+                               data-dismiss="modal"
+                       >Close</button>
 {{--                       <button type="submit" onclick="add" class="btn btn-primary">Create</button>--}}
                    </div>
                </div>
@@ -50,28 +51,56 @@
 <script>
     $(document).ready(function () {
         var i =1;
-        $('#addMore').click(function () {
-            i++;
-            if($('#symptom_name').val().length!==0){
-                var inputcontent = $('#symptom_name').val();
-                console.log(inputcontent);
-                $('#form-add').append(
-                    '<div class="row" style="margin-top: 20px " id="row'+i+'">' +
-                    '                            <div class="col-md-9"> \n' +
-                    '                                <input disabled name="symptom_name'+i+'" class="form-control" id="symptom'+i+'" value="'+inputcontent+'">\n' +
-                    '                            </div>\n' +
-                    '                            <div class="col-md-3"> \n' +
-                    ' <button type="button" class="btn btn-secondary btn_remove" id="'+i+'" >X</button>'+
-                    '                            </div>\n' +
-                    '                        </div>'
-                )
-            };
-    });
 
+        // $('#addMore').click(function (event) {
+        //     if($('#symptom_name').val().length!==0) {
+        //         // var hi = confirm('do you want to create the Symptom?')
+        //         // if (hi === true) {
+        //         event.preventDefault();
+        //         i++;
+        //         var inputcontent = $('#symptom_name').val();
+        //         var formData = new FormData();
+        //         formData.append('symptom_name', inputcontent);
+        //         $.ajax({
+        //             url: '/admin/module/symptom', // URL to submit
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
+        //             },
+        //             method: 'POST', // Method
+        //             dataType: 'json', // We will send and get data returns as Json.
+        //             data: formData, // Pass data here.
+        //             processData: false,
+        //             contentType: false
+        //         })
+        //             .done(function (data) {
+        //                 // Request Ajax successfully and get response.
+        //                 if (data['message']['status'] === 'invalid') {
+        //                     swal("", data['message']['description'], "error");
+        //                 }
+        //                 if (data['message']['status'] === 'existed') {
+        //                     swal("", data['message']['description'], "error");
+        //                 }
+        //                 if (data['message']['status'] === 'success') {
+        //                     swal("", data['message']['description'], "success");
+        //                 } else if (data.status === 'error') {
+        //                     swal("", data['message']['description'], "error");
+        //                 }
+        //             })
+        //             .fail(function (error) {
+        //                 console.log(error);
+        //             });
+        //
+        //     };
+        //
+        // });
         $(document).on('click', '.btn_remove', function () {
-                var button_id = $(this).attr("id");
-                $("#row"+button_id+"").remove();
+                     var button_id = $(this).attr("id");
+            $("#row" + button_id + "").remove();
         })
+        function getID(){
+
+        }
+
     });
 
 

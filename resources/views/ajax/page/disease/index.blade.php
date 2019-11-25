@@ -124,6 +124,7 @@
         });
     });
 
+
     /**
      * We will show form Create Category again.
      * Please make sure you have form create Category in index.blade.php
@@ -143,6 +144,7 @@
      * Normally,
      */
     $(document).ready(function () {
+    var disease_id;
         $('#diseaseFormCreate').on('submit',function (event) {
             $("#diseaseFormCreate").validate({
                 rules: {
@@ -175,8 +177,6 @@
             })
                 .done(function (data) {
                     // Request Ajax successfully and get response.
-
-
                     if (data['message']['status'] === 'invalid') {
                         swal("", data['message']['description'], "error");
                     }
@@ -185,6 +185,7 @@
                     }
                     if (data['message']['status'] === 'success') {
                         swal("", data['message']['description'], "success");
+                        disease_id = data['disease']['id'];
                         var table = $('#datatablesDisease').DataTable();
                         $.fn.dataTable.ext.errMode = 'none';
                         table.row.add(
@@ -207,7 +208,51 @@
                     console.log(error);
                 });
         });
+        {{--this use to add symptom with disease --}}
+        $('#addMore').click( function () {
+            var i = 1;
+
+            if($('#symptom_name').val().length!==0) {
+                // var hi = confirm('do you want to create the Symptom?')
+                // if (hi === true) {
+                i++;
+                var inputcontent = $('#symptom_name').val();
+                var formData = new FormData();
+                formData.append('symptom_name', inputcontent);
+                $.ajax({
+                    url: '/admin/module/symptom/disease/'+disease_id,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
+                    },
+                    method: 'POST', // Method
+                    dataType: 'json', // We will send and get data returns as Json.
+                    data: formData, // Pass data here.
+                    processData: false,
+                    contentType: false
+                })
+                    .done(function (data) {
+                        // Request Ajax successfully and get response.
+                        if (data['message']['status'] === 'invalid') {
+                            swal("", data['message']['description'], "error");
+                        }
+                        if (data['message']['status'] === 'existed') {
+                            swal("", data['message']['description'], "error");
+                        }
+                        if (data['message']['status'] === 'success') {
+                            swal("", data['message']['description'], "success");
+                        } else if (data.status === 'error') {
+                            swal("", data['message']['description'], "error");
+                        }
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                    });
+
+            };
+
+        });
     });
+
     function deleteDisease(id) {
         console.log(id);
         $.ajax({
@@ -245,8 +290,9 @@
             });
     }
 
+
     $('#diseaseFormEdit').on('submit', function (event) {
-        $("#diseaseFormEditFormEdit").validate({
+        $("#diseaseFormEdit").validate({
             rules: {
                 name: "required",
                 description: "required"
@@ -359,4 +405,5 @@
                 console.log(error);
             });
     }
+
 </script>
