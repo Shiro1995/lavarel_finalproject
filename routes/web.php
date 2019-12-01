@@ -89,9 +89,13 @@ Route::group(['middleware' => 'auth'], function () {
      * Using Ajax to navigate page
      */
 
-    Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
-    Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
 
+    Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
+    Route::get('/admin/v1/pharmacy/', 'API\Pharmacycontroller@getPharmacy')->name('get_pharmacy');
+    Route::get('/admin/v1/symptom/', 'API\Symptomcontroller@getSymptom')->name('get_symptom');
+
+
+    Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
 
     Route::get('admin/ajax/symptom', 'Navigation\NavigationController@symptom')->name('ajax.symptom');
 

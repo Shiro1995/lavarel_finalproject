@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Model\Category;
-use App\Model\Disease;
-use App\Model\Users;
+use App\Model\Pharmacy;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Support\Facades\Validator;
 
-class UsersController extends Controller
+class PharmacyController extends Controller
 {
-
-    protected $mModelCat;
+    protected $symptom = '';
+    protected $mModelPharmacy;
     use HasTimestamps;
 
-    public function __construct(Users $cat) {
-        $this->middleware('auth');
-        $this->mModelCat = $cat;
+    public function __construct(Pharmacy $pharmacies) {
+        $this->mModelPharmacy = $pharmacies;
     }
 
     /**
@@ -29,18 +27,28 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $categories = $this->mModelCat->get();
+        $categories = $this->mModelPharmacy->get();
         $collections = collect();
-        foreach ($categories as $category) {
+        foreach ($categories as $Pharmacy) {
             $arr = array(
-                'id' => $category->id,
-                'name' => $category->name,
-                'email'=>$category->email,
-                'manipulation' => $category->id
+                'id' => $Pharmacy->id,
+                'name' => $Pharmacy->name,
+                'manipulation' => $Pharmacy->id,
             );
             $collections->push($arr);
         }
         return Datatables::collection($collections)->make();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+
+
     }
 
     /**
@@ -49,8 +57,10 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
+        \Log::info('hello');
         $credentials = $request->only('name');
         $rules = [
             'name' => 'required'
@@ -68,15 +78,15 @@ class UsersController extends Controller
                 ]
             ]));
         } else {
-            if ($this->mModelCat->getByName($request->name) > 0) {
+            if ($this->mModelPharmacy->getByName($request->name)) {
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'description' => "The Pharmacy already exists in the system!"
                     ]
                 ]));
             } else {
-                if ($this->mModelCat->insert(array([
+                if ($this->mModelPharmacy->insert(array([
 //                        'id' => 0,
                         'name' => $request->name,
                         'created_at' => $this->freshTimestamp(),
@@ -86,15 +96,15 @@ class UsersController extends Controller
                     return json_encode(([
                         'message' => [
                             'status' => "success",
-                            'description' => "Create a new category successfully"
+                            'description' => "Create a new Pharmacy successfully"
                         ],
-                        'categories' => $this->mModelCat->getByName($request->name)
+                        'Pharmacy' => $this->mModelPharmacy->getByName($request->name)
                     ]));
                 } else {
                     return json_encode(([
                         'message' => [
                             'status' => "error",
-                            'description' => "Create a new category failure"
+                            'description' => "Create a new Pharmacy failure"
                         ]
                     ]));
                 }
@@ -103,15 +113,65 @@ class UsersController extends Controller
     }
 
 
+    public  function  fetchsymptom(string $name)
+    {
+        \Log::info('say hi');
+        $goutteClient = new \Goutte\Client();
+        $guzzleClient = new Client([
+            'timeout' => 60,
+            'verify' => false,
+        ]);
+        $goutteClient->setClient($guzzleClient);
+        $url2 = "https://hellobacsi.com/benh/".$name;
+
+//        $crawler = $goutteClient->request('GET', $url2);
+        \Log::info($url2);
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+        public function fetchPharmacy()
+        {
+
+            $goutteClient = new \Goutte\Client();
+            $guzzleClient = new Client([
+                'timeout' => 60,
+                'verify' => false,
+            ]);
+            $goutteClient->setClient($guzzleClient);
+            $url = "https://hellobacsi.com/benh/alkapton-nieu/";
+
+            $crawler = $goutteClient->request('GET', $url);
+
+            \Log::info('ehllo');
+
+                  $crawler->filter('section#h-trieu-chung-thuong-gap')->each(function ($node) {
+                          $node->filter('p')->each(function ($node1) {
+
+
+                              \Log::info( $node1->text());
+                              $this->mModelPharmacy->insert(array([
+//                        'id' => 0,
+//                                  'name' => $node2->text(),
+                                  'created_at' => $this->freshTimestamp(),
+                                  'updated_at' => $this->freshTimestamp()
+                              ]));
+                          });
+
+                  });
+
+
+
+
+        }
+    public function showSymptom($id)
     {
-        $cat = $this->mModelCat->getById($id);
+        $cat = $this->mModelPharmacy->getSymptons($id);
+
         if ($cat == null) {
             return json_encode(([
                 'message' => [
@@ -120,14 +180,38 @@ class UsersController extends Controller
                 ]
             ]));
         } else {
-
             return json_encode(([
                 'message' => [
                     'status' => "success",
                     'description' => ""
                 ],
-                'categories' => $cat
+                'Pharmacy' => $cat,
+
+            ])
+
+            );
+        }
+    }
+    public function show($id)
+    {
+        $cat = $this->mModelPharmacy->getById($id);
+        if ($cat == null) {
+            return json_encode(([
+                'message' => [
+                    'status' => "error",
+                    'description' => "The customer didn't exist in our system!"
+                ]
             ]));
+        } else {
+            return json_encode(([
+                'message' => [
+                    'status' => "success",
+                    'description' => ""
+                ],
+                'Pharmacy' => $cat,
+            ])
+
+            );
         }
     }
 
@@ -168,35 +252,34 @@ class UsersController extends Controller
                 ]
             ]));
         } else {
-            if ($this->mModelCat->getByName($request->name)) {
+            if ($this->mModelPharmacy->getByName($request->name)) {
                 return json_encode(([
                     'message' => [
                         'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'description' => "The Pharmacy already exists in the system!"
                     ]
                 ]));
             } else {
-                if ($this->mModelCat->updateById($id, $request) > 0){
+                if ($this->mModelPharmacy->updateById($id, $request) > 0){
                     return json_encode(([
                         'message' => [
                             'status' => "success",
-                            'description' => "Update the category success!"
+                            'description' => "Update the Pharmacy success!"
                         ],
-                        'category' => $this->mModelCat->getById($id)
+                        'Pharmacy' => $this->mModelPharmacy->getById($id)
                     ]));
                 }
                 else {
                     return json_encode(([
                         'message' => [
                             'status' => "error",
-                            'description' => "Update the category failure!"
+                            'description' => "Update the Pharmacy failure!"
                         ]
                     ]));
                 }
             }
         }
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -207,23 +290,24 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
-        $cat = $this->mModelCat->deleteById($id);
+        $cat = $this->mModelPharmacy->deleteById($id);
         //Log::info($id);
-        if ( $this->mModelCat->getById($id) != null) {
+        if ( $this->mModelPharmacy->getById($id) != null) {
             return json_encode(([
                 'message' => [
                     'status' => "error",
-                    'description' => "Delete the category failure",
+                    'description' => "Delete the Pharmacy failure",
                 ]
             ]));
         } else {
             return json_encode(([
                 'message' => [
                     'status' => "success",
-                    'description' => "Delete the category success "
+                    'description' => "Delete the Pharmacy success "
                 ],
                 'id' => $id
             ]));
         }
     }
+
 }
