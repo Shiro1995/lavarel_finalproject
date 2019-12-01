@@ -36,7 +36,7 @@ class Disease extends Model
 
 
     public function get() {
-        return DB::table('disease')->get();
+        return DB::table('disease')->limit(10)->get();
     }
     public function deleteById($id) {
         return DB::table('disease')->where('id', $id)->delete();
