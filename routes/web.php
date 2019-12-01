@@ -90,6 +90,9 @@ Route::group(['middleware' => 'auth'], function () {
      */
 
     Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
+    Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
+
+
     Route::get('admin/ajax/symptom', 'Navigation\NavigationController@symptom')->name('ajax.symptom');
 
     Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');

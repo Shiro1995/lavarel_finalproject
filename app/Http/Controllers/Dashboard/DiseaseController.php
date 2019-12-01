@@ -309,4 +309,5 @@ class DiseaseController extends Controller
             ]));
         }
     }
+
 }
