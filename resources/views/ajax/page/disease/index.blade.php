@@ -109,8 +109,6 @@
                 type: 'GET'
             },
 
-
-
             "columns": [
                 { "data": "id" },
                 { "data": "name"},
