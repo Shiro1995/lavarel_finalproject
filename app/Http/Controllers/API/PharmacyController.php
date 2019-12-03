@@ -43,9 +43,7 @@ class PharmacyController extends Controller
                     'code' => 0,
                     'message' => "Success"
                 ],
-                'data' => [
-                    'pharmacies' => $pharmacies,
-                ]
+                'data' => $pharmacies
             ]);
         }
 

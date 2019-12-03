@@ -20,9 +20,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    \Log::info('adsfsadfdsf');
     return view('welcome');
 });
+
+Route::get('/autoGetDisease', 'API\DiseaseController@dummy1');
 
 /**
  * Using this Lib for tracking Log error from System
