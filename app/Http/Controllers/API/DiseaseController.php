@@ -6,7 +6,6 @@ use App\Model\Disease;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 
 class DiseaseController extends Controller
 {
@@ -50,7 +49,7 @@ class DiseaseController extends Controller
         return json_encode($this->response_array);
     }
 
-    public function dummy1() {
+    public function auto_type_disease() {
         $goutteClient = new \Goutte\Client();
         $guzzleClient = new Client([
             'timeout' => 60,
@@ -67,7 +66,6 @@ class DiseaseController extends Controller
                 return $node2->text();
             });
             $disease = array([
-                'id' => 0,
                 'name' => $name[0],
                 'description' => $description[0],
                 'created_at' => $this->freshTimestamp(),
