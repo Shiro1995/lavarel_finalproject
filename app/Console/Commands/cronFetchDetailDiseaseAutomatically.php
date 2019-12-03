@@ -3,32 +3,35 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\API\DiseaseController;
+use App\Model\Disease;
 use Illuminate\Console\Command;
 
-class cronFetchDiseaseAutomatically extends Command
+class cronFetchDetailDiseaseAutomatically extends Command
 {
     protected $controller;
+    protected $disease;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:cronFetchDiseaseAutomatically';
+    protected $signature = 'command:cronFetchDetailDiseaseAutomatically';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Using for fetching class of diseases';
+    protected $description = 'Using for fetching all diseases';
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(DiseaseController $controller) {
+    public function __construct(DiseaseController $controller, Disease $disease) {
         parent::__construct();
+        $this->disease = $disease;
         $this->controller = $controller;
     }
 
@@ -38,6 +41,10 @@ class cronFetchDiseaseAutomatically extends Command
      * @return mixed
      */
     public function handle() {
-        $this->controller->auto_type_disease();
+        $typeOfDiseases = $this->disease->get();
+        foreach ($typeOfDiseases as $item) {
+            $this->controller->auto_disease($item);
+        }
+        return true;
     }
 }

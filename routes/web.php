@@ -23,6 +23,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/autoGetDisease', 'API\DiseaseController@auto_disease');
+
 /**
  * Using this Lib for tracking Log error from System
  * Laravel Log Viewer
@@ -49,8 +51,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
     Route::post('/admin/module/symptom/{symptom}', 'Dashboard\SymptomController@update')->name('symptom.update');
     Route::post('/admin/module/symptom/disease/{disease}/', 'Dashboard\Symptomcontroller@addSymptom')->name('dis_symptom.create');
-
-
 
     /**
      * Now, we will use run command php artisan route:list

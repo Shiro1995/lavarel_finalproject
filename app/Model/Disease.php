@@ -22,7 +22,6 @@ class Disease extends Model
         return DB::table('disease')->where('id', $id)->first();
     }
 
-
     public function get() {
         return DB::table('disease')->get();
     }
