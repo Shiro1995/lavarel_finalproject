@@ -22,8 +22,14 @@ class Disease extends Model
         return DB::table('disease')->where('id', $id)->first();
     }
 
+    public function getByIdnLevel($id, $level) {
+        return DB::table('disease')
+            ->where('parent_id', $id)
+            ->where('level', $level)->get();
+    }
+
     public function get() {
-        return DB::table('disease')->get();
+        return DB::table('disease')->where('level', 0)->get();
     }
 
     public function deleteById($id) {

@@ -26,8 +26,26 @@ class DiseaseController extends Controller
 
     public function get_diseases()
     {
-        $diseases = $this->mModelDisease->get();
-        if($diseases==null) {
+        $type_diseases = $this->mModelDisease->get();
+        $result = array();
+        foreach($type_diseases as $type) {
+            $result[] = array(
+                'id' => $type->id,
+                'name' => $type->name,
+                'description' => $type->description,
+                'level' => $type->level,
+                'parent_id' => $type->parent_id,
+                'is_editable' => $type->is_editable,
+                'status' => $type->status,
+                'locate' => $type->locate,
+                'type' => $type->type,
+                'path' => $type->path,
+                'created_at' => $type->created_at,
+                'updated_at' => $type->updated_at,
+                'diseases' => $this->mModelDisease->getByIdnLevel($type->id, 1),
+            );
+        }
+        if($type_diseases==null) {
             $this->response_array = ([
                 'http_response_code' => http_response_code(),
                 'error' => [
@@ -43,10 +61,9 @@ class DiseaseController extends Controller
                     'code'        => 0,
                     'message'   => "Success"
                 ],
-                'data' => $diseases
+                'data' => $result
             ]);
         }
-
         return json_encode($this->response_array);
     }
 
@@ -100,6 +117,9 @@ class DiseaseController extends Controller
             $name = $node->filter('h2 > a')->each(function ($node1) {
                 return $node1->text();
             });
+            $path = $node->filter('h2 > a')->each(function ($node1) {
+                return $node1->attr('href');
+            });
             $description = $node->filter('p')->each(function ($node2) {
                 return $node2->text();
             });
@@ -111,6 +131,7 @@ class DiseaseController extends Controller
                 'status' => 0,
                 'locate' => 'all',
                 'type' => null,
+                'path' => $path[0],
                 'description' => $description[0],
                 'created_at' => $this->freshTimestamp(),
                 'updated_at' => $this->freshTimestamp()
