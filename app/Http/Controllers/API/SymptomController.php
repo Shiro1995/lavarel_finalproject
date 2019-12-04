@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Model\Definition;
+use App\Model\Prognostic;
 use App\Model\Symptoms;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class SymptomController extends Controller
 {
@@ -18,11 +21,15 @@ class SymptomController extends Controller
      */
     protected $symptom = '';
     protected $mModelSymptom;
+    protected $mPrognostic;
+    protected $mDefinition;
     use HasTimestamps;
     protected $response_array;
 
-    public function __construct(Symptoms $symptoms) {
+    public function __construct(Symptoms $symptoms, Definition $definition, Prognostic $prognostic) {
         $this->mModelSymptom = $symptoms;
+        $this->mPrognostic = $prognostic;
+        $this->mDefinition = $definition;
     }
     public function getSymptom()
     {
@@ -61,30 +68,49 @@ class SymptomController extends Controller
         $goutteClient->setClient($guzzleClient);
         $url = "https://www.dieutri.vn".$disease->path;
         $crawler = $goutteClient->request('GET', $url);
-        $crawler->filter('ul#listGrid > li' )->each(function ($node) {
-            $name = $node->filter('h2 > a')->each(function ($node1) {
+        $crawler->filter('div.detail' )->first()->each(function ($node) {
+            $content = $node->filter('p')->eq(10)->siblings()->each(function ($node1) {
                 return $node1->text();
             });
-            $path = $node->filter('h2 > a')->each(function ($node1) {
-                return $node1->attr('href');
-            });
-            $description = $node->filter('p')->each(function ($node2) {
-                return $node2->text();
-            });
-            $symptom = array([
-                'name' => $name[0],
-                'level' => 1,
-                'parent_id' => $this->id,
-                'is_editable' => 0,
-                'status' => 0,
-                'locate' => 'all',
-                'type' => null,
-                'path' => $path[0],
-                'description' => $description[0],
-                'created_at' => $this->freshTimestamp(),
-                'updated_at' => $this->freshTimestamp()
-            ]);
-            $this->mModelSymptom->synchWithServerFromLocal($symptom);
+
+            $result = array();
+            for ($i = 0; $i < sizeof($content); $i++) {
+                if ($content[$i] == "Định nghĩa" || $content[$i] == "định nghĩa") {
+                    for ($j = 0; $j < sizeof($content); $j++) {
+                        if ($content[$j] == "Các triệu chứng" || $content[$j] == "các triệu chứng") break;
+//                        $result[] = array(
+//                            'definition' => $content[$j]
+//                        );
+                        if ($content[$j] != "Định nghĩa" || $content[$i] == "định nghĩa") {
+                            $definition = array([
+                                'name' => $content[$j],
+                                'disease_id' => $this->id,
+                                'created_at' => $this->freshTimestamp(),
+                                'updated_at' => $this->freshTimestamp()
+                            ]);
+                            $this->mDefinition->insert($definition);
+                        }
+                    }
+                }
+            }
+//            $symptom = array([
+//                'name' => $name[0],
+//                'level' => 1,
+//                'parent_id' => $this->id,
+//                'is_editable' => 0,
+//                'status' => 0,
+//                'locate' => 'all',
+//                'type' => null,
+//                'path' => $path[0],
+//                'description' => $description[0],
+//                'created_at' => $this->freshTimestamp(),
+//                'updated_at' => $this->freshTimestamp()
+//            ]);
+//            Log::info($content);
+            Log::info($result);
+//            $this->mModelSymptom->synchWithServerFromLocal($symptom);
         });
     }
 }
+
+// https://vegibit.com/php-simple-html-dom-parser-vs-friendsofphp-goutte/

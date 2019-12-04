@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/autoGetDisease', 'API\DiseaseController@auto_disease');
+Route::get('/test', 'API\SymptomController@auto_symptom');
 
 /**
  * Using this Lib for tracking Log error from System

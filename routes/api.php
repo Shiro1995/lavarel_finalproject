@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('v1/mobile/user/register', 'API\AuthenticateController@register')->name('api_register_user');
-Route::post('v1/mobile/user/login', 'API\AuthenticateController@login')->name('api_login_user');
-
 Route::get('v1/mobile/get/pharmacies', 'API\PharmacyController@get_pharmacy')->name('get_pharmacies');
+
 Route::get('v1/mobile/get/diseases', 'API\DiseaseController@get_diseases')->name('get_diseases');
 
 Route::group(['middleware' => ['jwt.auth']], function() {
