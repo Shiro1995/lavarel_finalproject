@@ -13,17 +13,19 @@ class Symptoms extends Model
 
     protected $table = "symptoms";
 
-    protected $fillable = [
-    ];
+    public function getDefinitions($disease_id) {
+        return DB::table('definitions')->where('disease_id', $disease_id)->get();
+    }
 
-    protected $hidden = [
-    ];
+    public function getPrognostics($disease_id) {
+        return DB::table('prognostics')->where('disease_id', $disease_id)->get();
+    }
 
-    protected $casts = [
-    ];
+    public function getReasons($disease_id) {
+        return DB::table('reasons')->where('disease_id', $disease_id)->get();
+    }
 
-    public function insert($data)
-    {
+    public function insert($data) {
         return DB::table('symptoms')->insert($data);
     }
 
