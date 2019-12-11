@@ -53,21 +53,20 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a id="nav_index" href="javascript:void(0)">Dashboard</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-home"></i> Disease <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a id="nav_view_disease" href="javascript:void(0)">View disease</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-home"></i> User <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a id="nav_view_book" href="javascript:void(0)">View User</a></li>
-                    </ul>
-                  </li>
+                    <li><a><i class="fa fa-home"></i> Disease <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a id="nav_view_type_disease" href="javascript:void(0)">Type Disease</a></li>
+                            <li><a id="nav_view_disease" href="javascript:void(0)">Disease</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-home"></i> Symptoms <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a id="nav_view_definitions" href="javascript:void(0)">Definitions</a></li>
+                            <li><a id="nav_view_prognostics" href="javascript:void(0)">Prognostics</a></li>
+                             <li><a id="nav_view_reasons" href="javascript:void(0)">Reasons</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
               </div>
             </div>

@@ -203,5 +203,9 @@ class AuthenticateController extends Controller
         }
         echo json_encode($this->response_array);
     }
+    public function pharmacy()
+    {
+
+    }
 }
 
