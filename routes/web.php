@@ -23,13 +23,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'API\SymptomController@auto_symptom');
-
-/**
+/*
  * Using this Lib for tracking Log error from System
  * Laravel Log Viewer
  */
-
 Route::group(['prefix' => '', 'note' => 'LOG'], function () {
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
@@ -79,31 +76,25 @@ Route::group(['middleware' => 'auth'], function () {
      */
     Route::post('logout', 'Dashboard\LogoutController@logout')->name('logout');
 
-    /**
-     * Similarity with CRUD for User, Doctor, Disease, Pharmacy,...
-     */
+    /* Similarity with CRUD for User, Doctor, Disease, Pharmacy,... */
     Route::resource('/user', 'Dashboard\UserController');
 
-    /**
-     * Using Ajax to navigate page
-     */
+    /* Using Ajax to navigate page */
+    Route::group(['prefix' => ''], function () {
+        Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
 
+        Route::get('/admin/v1/pharmacy/', 'API\Pharmacycontroller@getPharmacy')->name('get_pharmacy');
 
-    Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
-    Route::get('/admin/v1/pharmacy/', 'API\Pharmacycontroller@getPharmacy')->name('get_pharmacy');
-    Route::get('/admin/v1/symptom/', 'API\Symptomcontroller@getSymptom')->name('get_symptom');
+        Route::get('/admin/v1/symptom/', 'API\Symptomcontroller@getSymptom')->name('get_symptom');
 
+        Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
 
-    Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
+        Route::get('admin/ajax/symptom', 'Navigation\NavigationController@symptom')->name('ajax.symptom');
 
-    Route::get('admin/ajax/symptom', 'Navigation\NavigationController@symptom')->name('ajax.symptom');
+        Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
 
-    Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
+        Route::get('admin/ajax/disease', 'Navigation\NavigationController@disease')->name('ajax.disease');
 
-    Route::get('admin/ajax/disease', 'Navigation\NavigationController@disease')->name('ajax.disease');
-
-    Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
+        Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
+    });
 });
-
-
-Route::get('asdf/teset','Dashboard\Symptomcontroller@fetchDisease')->name('asdsa.test');
