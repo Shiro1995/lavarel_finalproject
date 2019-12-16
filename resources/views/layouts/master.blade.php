@@ -9,7 +9,6 @@
     <title>Dashboard</title>
     <link rel="icon" href="{{ URL::asset('images/favicon.ico') }}" type="image/ico" />
     <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('css/bootstrap2-toggle.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/notifications.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
@@ -207,7 +206,6 @@
     <script src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
 
     <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('js/bootstrap2-toggle.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-progressbar.min.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-toggle.js') }}"></script>
     <script src="{{ URL::asset('js/custom.min.js') }}"></script>
