@@ -97,6 +97,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
 
-        Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
+        Route::get('admin/ajax/type_disease', 'Navigation\NavigationController@type_disease')->name('ajax.type_disease');
     });
 });
