@@ -9,7 +9,6 @@
     <title>Dashboard</title>
     <link rel="icon" href="{{ URL::asset('images/favicon.ico') }}" type="image/ico" />
     <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('css/bootstrap2-toggle.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/notifications.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
@@ -39,11 +38,11 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{{ URL::asset('images/img.jpg') }}" alt="..." class="img-circle profile_img">
+                <img src="{{ Auth::user()->avatar }}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>{{ Auth::user()->name }}</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -85,7 +84,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="{{ Auth::user()->avatar }}" alt="">{{ Auth::user()->name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -199,7 +198,6 @@
     <script src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
 
     <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('js/bootstrap2-toggle.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-progressbar.min.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-toggle.js') }}"></script>
     <script src="{{ URL::asset('js/custom.min.js') }}"></script>

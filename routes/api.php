@@ -17,6 +17,10 @@ Route::get('v1/mobile/get/pharmacies', 'API\PharmacyController@get_pharmacy')->n
 
 Route::get('v1/mobile/get/diseases', 'API\DiseaseController@get_diseases')->name('get_diseases');
 
+Route::get('v1/mobile/get/symptoms/{id}', 'API\SymptomController@get_symptoms')->name('get_symptoms');
+
+Route::post('v1/mobile/check/phamarcy/{uid}', 'API\PharmacyController@phamarcy')->name('check_phamarcy');
+
 Route::group(['middleware' => ['jwt.auth']], function() {
     /**
      * Example to get data with access token
