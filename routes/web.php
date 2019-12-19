@@ -99,4 +99,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('admin/ajax/type_disease', 'Navigation\NavigationController@type_disease')->name('ajax.type_disease');
     });
+
+    Route::group(['prefix' => '', 'note' => 'Routes for Customer'], function () {
+        Route::get('/admin/module/type_disease', 'Dashboard\TypeDiseaseController@index')->name('get_list_type_disease');
+
+        Route::post('/admin/module/type_disease', 'Dashboard\TypeDiseaseController@store')->name('create_type_disease');
+//
+//        Route::get('/admin/customer/show/{id}', 'Dashboard\CustomerController@show')->name('show_customer');
+//
+//        Route::get('/admin/customer/delete/{id}', 'Dashboard\CustomerController@destroy')->name('delete_customer');
+    });
 });

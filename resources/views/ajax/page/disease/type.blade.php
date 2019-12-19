@@ -5,7 +5,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <button id="newCategory" class="btn btn-default" type="button">New Type Disease</button>
+                        <button id="newDisease" class="btn btn-default" type="button">New Type Disease</button>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
