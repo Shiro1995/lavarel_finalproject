@@ -23,8 +23,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 /**
  * Using this Lib for tracking Log error from System
  * Laravel Log Viewer
