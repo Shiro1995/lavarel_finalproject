@@ -25,6 +25,14 @@ class NavigationController extends Controller
         ]);
         echo json_encode($response_array);
     }
+    public function type_disease() {
+        $returnHTML = view('ajax.page.disease.type')->render();
+        $response_array = ([
+            'success' => true,
+            'html' => $returnHTML
+        ]);
+        echo json_encode($response_array);
+    }
 
     public function category() {
         $returnHTML = view('ajax.page.category.index')->render();
@@ -34,8 +42,16 @@ class NavigationController extends Controller
         ]);
         echo json_encode($response_array);
     }
-    public function symptom() {
-        $returnHTML = view('ajax.page.symptom.index')->render();
+    public function definitions() {
+        $returnHTML = view('ajax.page.definitions.index')->render();
+        $response_array = ([
+            'success' => true,
+            'html' => $returnHTML
+        ]);
+        echo json_encode($response_array);
+    }
+    public function prognostics() {
+        $returnHTML = view('ajax.page.prognostics.index')->render();
         $response_array = ([
             'success' => true,
             'html' => $returnHTML
@@ -43,4 +59,12 @@ class NavigationController extends Controller
         echo json_encode($response_array);
     }
 
+    public function reasons() {
+        $returnHTML = view('ajax.page.reasons.index')->render();
+        $response_array = ([
+            'success' => true,
+            'html' => $returnHTML
+        ]);
+        echo json_encode($response_array);
+    }
 }

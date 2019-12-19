@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\API\SymptomController;
+use App\Http\Controllers\API\Definitionscontroller;
 use App\Model\Disease;
 use Illuminate\Console\Command;
 
@@ -29,7 +29,7 @@ class cronFetchSymptomAutomatically extends Command
      *
      * @return void
      */
-    public function __construct(SymptomController $controller, Disease $disease) {
+    public function __construct(Definitionscontroller $controller, Disease $disease) {
         parent::__construct();
         $this->disease = $disease;
         $this->controller = $controller;

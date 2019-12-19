@@ -67,4 +67,8 @@ class PharmacyController extends Controller
 
         return json_encode($this->response_array);
     }
+
+    public function phamarcy($uid) {
+        \Log::info($uid);
+    }
 }

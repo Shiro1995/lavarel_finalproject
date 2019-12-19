@@ -38,11 +38,11 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{{ URL::asset('images/img.jpg') }}" alt="..." class="img-circle profile_img">
+                <img src="{{ Auth::user()->avatar }}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>{{ Auth::user()->name }}</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -52,27 +52,19 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a id="nav_index" href="javascript:void(0)">Dashboard</a></li>
-                    </ul>
-                  </li>
                     <li><a><i class="fa fa-home"></i> Disease <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a id="nav_view_disease" href="javascript:void(0)">View Disease</a></li>
+                            <li><a id="nav_view_type_disease" href="javascript:void(0)">Type Disease</a></li>
+                            <li><a id="nav_view_disease" href="javascript:void(0)">Disease</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-home"></i> Symptoms <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a id="nav_view_symptom" href="javascript:void(0)">View Symptom</a></li>
+                            <li><a id="nav_view_definitions" href="javascript:void(0)">Definitions</a></li>
+                            <li><a id="nav_view_prognostics" href="javascript:void(0)">Prognostics</a></li>
+                             <li><a id="nav_view_reasons" href="javascript:void(0)">Reasons</a></li>
                         </ul>
                     </li>
-                  <li><a><i class="fa fa-home"></i> Category <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a id="nav_view_category" href="javascript:void(0)">View Category</a></li>
-                    </ul>
-                  </li>
-
 
                 </ul>
               </div>
@@ -92,7 +84,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="{{ Auth::user()->avatar }}" alt="">{{ Auth::user()->name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

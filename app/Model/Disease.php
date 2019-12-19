@@ -29,6 +29,10 @@ class Disease extends Model
     }
 
     public function get() {
+        return DB::table('disease')->where('level', 1)->get();
+    }
+
+    public function getType() {
         return DB::table('disease')->where('level', 0)->get();
     }
 

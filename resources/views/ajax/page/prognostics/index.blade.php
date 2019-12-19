@@ -11,7 +11,7 @@
         <div class="page-title">
 
             <div class="x_title">
-                <button id="newSymptom" class="btn btn-default" type="button">New Symptom</button>
+                <button id="newPrognostic" class="btn btn-default" type="button">New Definitions</button>
                 <div class="clearfix"></div>
             </div>
             <div class="title_right">
@@ -58,7 +58,7 @@
                             DataTables has most features enabled by default, so all you need to do to use it with your
                             own tables is to call the construction function: <code>$().DataTable();</code>
                         </p>
-                        <table id="datatablesSymptom" class="table table-striped table-bordered">
+                        <table id="datatablesPrognostic" class="table table-striped table-bordered">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -80,15 +80,15 @@
         </div>
     </div>
 </div>
-@include('modal.symptom.create')
-@include('modal.symptom.edit')
+@include('modal.definitions.create')
+@include('modal.definitions.edit')
 <script>
     /**
 
      * show it in DataTables.
      */
     $(document).ready(function () {
-        $('#datatablesSymptom').dataTable({
+        $('#datatablesPrognostic').dataTable({
             "pageLength": 15,
             "lengthMenu": [[15,30,45,-1], [15,30,45,'All']],
             'paging'      : true,
@@ -101,7 +101,7 @@
             "serverSide": true,
 
             "ajax": {
-                url: '/admin/module/symptom',
+                url: '/admin/module/prognostics',
                 type: 'GET'
             },
 
@@ -110,8 +110,8 @@
                 { "data": "name"},
                 { "data": "manipulation", "render": function (id) {
                         return '<div class="text-center">'
-                            + '<a id="name" onclick= "editSymptom('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteSymptom('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                            + '<a id="name" onclick= "editDefinitions('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDefinitions('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                             + '</div>';
                     }}
             ]
@@ -119,11 +119,11 @@
     });
 
 
-    $('#newSymptom').click(function () {
+    $('#newDefinitions').click(function () {
         // This command is shown
-        $('#createSymptomModal').modal('show');
+        $('#createDefinitionsModal').modal('show');
         // This command is used to clear form when you open again.
-        $('#SymptomFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+        $('#DefinitionsFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
     });
     /**
      * When you click button <button type="submit" class="btn btn-primary">Create</button>
@@ -131,7 +131,7 @@
      * Normally,
      */
     $(document).ready(function () {
-        $('#SymptomFormCreate').on('submit', function (event) {
+        $('#DefinitionsFormCreate').on('submit', function (event) {
             /**
              * This code blocks to validate Form using Jquery validate.
              * As I told you before: https://thienanblog.com/javascript/jquery/huong-dan-su-dung-jquery-validation/
@@ -141,7 +141,7 @@
              * rules: allow you to add field need to validate: name <name get from attribute id in tag input)
              * messages: allow you to show message error when user didn't obey your rules with the same field.
              */
-            $("#SymptomFormCreate").validate({
+            $("#DefinitionsFormCreate").validate({
                 rules: {
                     name: "required"
                 },
@@ -153,11 +153,11 @@
             if (!$(this).valid()) return false;
 
             event.preventDefault();
-            $('#createSymptomModal').modal('hide');
+            $('#createDefinitionsModal').modal('hide');
             var formData = new FormData(this);
             console.log(...formData)
             $.ajax({
-                url: '/admin/module/symptom', // URL to submit
+                url: '/admin/module/definitions', // URL to submit
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
                 },
@@ -176,16 +176,16 @@
                     }
                     if (data['message']['status'] === 'success') {
                         swal("", data['message']['description'], "success");
-                        var table = $('#datatablesSymptom').DataTable();
+                        var table = $('#datatablesDefinition').DataTable();
                         $.fn.dataTable.ext.errMode = 'none';
                         table.row.add(
                             [
-                                data['symptom']['id'],
-                                data['symptom']['name'],
+                                data['definitions']['id'],
+                                data['definitions']['name'],
                                 function (id) {
                                     return '<div class="text-center">'
-                                        + '<a onclick= "editSymptom(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteSymptom(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                        + '<a onclick= "editDefinition(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDefinition(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                                         + '</div>';
                                 }
                             ]
@@ -199,10 +199,10 @@
                 });
         });
     });
-    function deleteSymptom(id) {
+    function deleteDefinition(id) {
         console.log(id);
         $.ajax({
-            url: '/admin/module/symptom/' + id,
+            url: '/admin/module/definitions/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -218,7 +218,7 @@
 
                 if (data['message']['status'] === 'success') {
                     swal("", data['message']['description'], "success");
-                    var table = $('#datatablesSymptom').DataTable();
+                    var table = $('#datatablesDefinition').DataTable();
                     $.fn.dataTable.ext.errMode = 'none';
                     var rows = table.rows().data();
                     for (var i = 0; i < rows.length; i++) {
@@ -236,8 +236,8 @@
             });
     }
 
-    $('#symptomFormEdit').on('submit', function (event) {
-        $("#symptomFormEdit").validate({
+    $('#DefinitionFormEdit').on('submit', function (event) {
+        $("#DefinitionFormEdit").validate({
             rules: {
                 name: "required",
                 description: "required"
@@ -250,10 +250,10 @@
         if (!$(this).valid()) return false;
         event.preventDefault();
 
-        $('#editSymptomModal').modal('hide');
+        $('#editDefinitionModal').modal('hide');
         var formData = new FormData(this);
         $.ajax({
-            url: '/admin/module/symptom/' + $('#editId').val(),
+            url: '/admin/module/definitions/' + $('#editId').val(),
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -272,22 +272,22 @@
                 }
                 if (data['message']['status'] === 'success') {
                     swal("", data['message']['description'], "success");
-                    var table = $('#datatablesSymptom').DataTable();
+                    var table = $('#datatablesDefinition').DataTable();
                     $.fn.dataTable.ext.errMode = 'none';
                     var rows = table.rows().data();
                     for (var i = 0; i < rows.length; i++) {
                         console.log(rows[i].id);
-                        console.log(data['symptom']['id']);
+                        console.log(data['definitions']['id']);
 
-                        if (rows[i].id == data['symptom']['id']) {
+                        if (rows[i].id == data['definitions']['id']) {
                             console.log("run");
                             table.row(this).data(
                                 [
-                                    data['symptom']['name'],
+                                    data['definitions']['name'],
                                     function (id) {
                                         return '<div class="text-center">'
-                                            + '<a onclick= "editSymptom(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteSymptom(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                            + '<a onclick= "editDefinition(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDefinition(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                                             + '</div>';
                                     }
                                 ]
@@ -305,10 +305,10 @@
 
 
 
-    function editSymptom(id) {
+    function editDefinition(id) {
         console.log(id);
         $.ajax({
-            url: '/admin/module/symptom/' + id,
+            url: '/admin/module/definitions/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -319,10 +319,10 @@
             }
         })
             .done(function (data) {
-                $('#editName').val(data['symptom']['name']);
-                $('#editId').val(data['symptom']['id']);
+                $('#editName').val(data['definitions']['name']);
+                $('#editId').val(data['definitions']['id']);
                 $('#modal-loading').modal('hide');
-                $('#editSymptomModal').modal('show');
+                $('#editDefinitionsModal').modal('show');
             })
             .fail(function (error) {
                 console.log(error);

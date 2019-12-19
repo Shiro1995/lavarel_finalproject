@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="text-center">
-                    <span class="modal-title" id="exampleModalLabel">Edit Symptom</span>
+                    <span class="modal-title" id="exampleModalLabel">Edit Definitions</span>
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -12,7 +12,7 @@
             <form id="SymFormEdit">
                 <div class="modal-body">
                     <div class="form-group" id="form-group">
-                        <label for="recipient-name" class="col-form-label">Symptoms</label>
+                        <label for="recipient-name" class="col-form-label">Definitions</label>
                         <div>
                             <div class="row">
                                 <div class="col-md-9">
@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="info_symptom" id="info_symptom" >
+                        <div class="info_definitions" id="info_definitions" >
 {{--                            <input name="name" type="text" class="form-control" style="margin-bottom: 15px" id="editSymName">--}}
 {{--                            <input name="id" type="text" class="form-control" id="editSymId">--}}
 
@@ -49,7 +49,7 @@
     })
     $(document).ready(function () {
         var disease_id;
-        $('#SymFormEdit').on('submit', function (event) {
+        $('#DefinitionsFormEdit').on('submit', function (event) {
             $("#diseaseFormCreate").validate({
                 rules: {
                     name: "required",

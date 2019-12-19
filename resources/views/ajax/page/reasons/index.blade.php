@@ -5,26 +5,24 @@
  * Date: 4/7/2018
  * Time: 11:11 AM
  */
-
 ?>
-
 <div id="page_content_ajax" class="right_col" role="main">
     <div class="">
         <div class="page-title">
 
             <div class="x_title">
-                <button id="newDisease" class="btn btn-default" type="button">New Disease</button>
+                <button id="newReason" class="btn btn-default" type="button">New Definitions</button>
                 <div class="clearfix"></div>
             </div>
             <div class="title_right">
-{{--                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">--}}
-{{--                    <div class="input-group">--}}
-{{--                        <input type="text" class="form-control" placeholder="Search for...">--}}
-{{--                        <span class="input-group-btn">--}}
-{{--                      <button class="btn btn-default" type="button">Go!</button>--}}
-{{--                    </span>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">--}}
+                {{--                    <div class="input-group">--}}
+                {{--                        <input type="text" class="form-control" placeholder="Search for...">--}}
+                {{--                        <span class="input-group-btn">--}}
+                {{--                      <button class="btn btn-default" type="button">Go!</button>--}}
+                {{--                    </span>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
             </div>
         </div>
 
@@ -60,20 +58,20 @@
                             DataTables has most features enabled by default, so all you need to do to use it with your
                             own tables is to call the construction function: <code>$().DataTable();</code>
                         </p>
-                        <table id="datatablesDisease" class="table table-striped table-bordered">
+                        <table id="datatablesReason" class="table table-striped table-bordered">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Manipulation</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Manipulation</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -82,17 +80,15 @@
         </div>
     </div>
 </div>
-@include('modal.disease.create')
-@include('modal.disease.edit')
-
+@include('modal.definitions.create')
+@include('modal.definitions.edit')
 <script>
     /**
-     * This code to get all diseases from Server and
+
      * show it in DataTables.
      */
-
     $(document).ready(function () {
-        $('#datatablesDisease').dataTable({
+        $('#datatablesReason').dataTable({
             "pageLength": 15,
             "lengthMenu": [[15,30,45,-1], [15,30,45,'All']],
             'paging'      : true,
@@ -105,7 +101,7 @@
             "serverSide": true,
 
             "ajax": {
-                url: '/admin/module/disease',
+                url: '/admin/module/reasons',
                 type: 'GET'
             },
 
@@ -113,28 +109,21 @@
                 { "data": "id" },
                 { "data": "name"},
                 { "data": "manipulation", "render": function (id) {
-                    return '<div class="text-center">'
-                        + '<a onclick= "editDisease('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
-                        + '</div>';
-                }},
+                        return '<div class="text-center">'
+                            + '<a id="name" onclick= "editDefinitions('+id+')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDefinitions('+id+')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                            + '</div>';
+                    }}
             ]
         });
     });
 
 
-    /**
-     * We will show form Create Category again.
-     * Please make sure you have form create Category in index.blade.php
-     * - ('modal.disease.create')
-     * - Check id of modal to show createCategoryModal => you can create any modal different for object
-     * For example: createDiseaseModal, createSymphonyModal,....
-     */
-    $('#newDisease').click(function () {
+    $('#newDefinitions').click(function () {
         // This command is shown
-        $('#createDiseaseModal').modal('show');
+        $('#createDefinitionsModal').modal('show');
         // This command is used to clear form when you open again.
-        $('#diseaseFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+        $('#DefinitionsFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
     });
     /**
      * When you click button <button type="submit" class="btn btn-primary">Create</button>
@@ -142,28 +131,33 @@
      * Normally,
      */
     $(document).ready(function () {
-    var disease_id;
-        $('#diseaseFormCreate').on('submit',function (event) {
-            $("#diseaseFormCreate").validate({
+        $('#DefinitionsFormCreate').on('submit', function (event) {
+            /**
+             * This code blocks to validate Form using Jquery validate.
+             * As I told you before: https://thienanblog.com/javascript/jquery/huong-dan-su-dung-jquery-validation/
+             * Please take a look and observe if you want to understand validate more in blade file.
+             *
+             * What does it mean?
+             * rules: allow you to add field need to validate: name <name get from attribute id in tag input)
+             * messages: allow you to show message error when user didn't obey your rules with the same field.
+             */
+            $("#DefinitionsFormCreate").validate({
                 rules: {
-                    name: "required",
+                    name: "required"
                 },
                 messages: {
-                    name: "Vui lòng nhập name",
+                    name: "Vui lòng nhập name"
                 }
             });
-            if (!$(this).valid()) return false;
-            event.preventDefault();
-            // $('#createDiseaseModal').modal('hide');
 
-            /**
-             * Get all value by using attribute name in Form.
-             * @type {FormData}
-             */
+            if (!$(this).valid()) return false;
+
+            event.preventDefault();
+            $('#createDefinitionsModal').modal('hide');
             var formData = new FormData(this);
-            console.log(...formData);
+            console.log(...formData)
             $.ajax({
-                url: '/admin/module/disease', // URL to submit
+                url: '/admin/module/definitions', // URL to submit
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
                 },
@@ -174,7 +168,6 @@
                 contentType: false
             })
                 .done(function (data) {
-                    // Request Ajax successfully and get response.
                     if (data['message']['status'] === 'invalid') {
                         swal("", data['message']['description'], "error");
                     }
@@ -183,17 +176,16 @@
                     }
                     if (data['message']['status'] === 'success') {
                         swal("", data['message']['description'], "success");
-                        disease_id = data['disease']['id'];
-                        var table = $('#datatablesDisease').DataTable();
+                        var table = $('#datatablesDefinition').DataTable();
                         $.fn.dataTable.ext.errMode = 'none';
                         table.row.add(
                             [
-                                data['disease']['id'],
-                                data['disease']['name'],
+                                data['definitions']['id'],
+                                data['definitions']['name'],
                                 function (id) {
                                     return '<div class="text-center">'
-                                        + '<a onclick= "editDisease(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                        + '<a onclick= "editDefinition(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                        + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDefinition(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                                         + '</div>';
                                 }
                             ]
@@ -206,55 +198,11 @@
                     console.log(error);
                 });
         });
-        {{--this use to add symptom with disease --}}
-    //     $('#addMore').click( function () {
-    //         var i = 1;
-    //
-    //         if($('#symptom_name').val().length!==0) {
-    //             // var hi = confirm('do you want to create the Symptom?')
-    //             // if (hi === true) {
-    //             i++;
-    //             var inputcontent = $('#symptom_name').val();
-    //             var formData = new FormData();
-    //             formData.append('symptom_name', inputcontent);
-    //             $.ajax({
-    //                 url: '/admin/module/symptom/disease/'+disease_id,
-    //                 headers: {
-    //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
-    //                 },
-    //                 method: 'POST', // Method
-    //                 dataType: 'json', // We will send and get data returns as Json.
-    //                 data: formData, // Pass data here.
-    //                 processData: false,
-    //                 contentType: false
-    //             })
-    //                 .done(function (data) {
-    //                     // Request Ajax successfully and get response.
-    //                     if (data['message']['status'] === 'invalid') {
-    //                         swal("", data['message']['description'], "error");
-    //                     }
-    //                     if (data['message']['status'] === 'existed') {
-    //                         swal("", data['message']['description'], "error");
-    //                     }
-    //                     if (data['message']['status'] === 'success') {
-    //                         swal("", data['message']['description'], "success");
-    //                     } else if (data.status === 'error') {
-    //                         swal("", data['message']['description'], "error");
-    //                     }
-    //                 })
-    //                 .fail(function (error) {
-    //                     console.log(error);
-    //                 });
-    //
-    //         };
-    //
-    //     });
-    // });
-
-    function deleteDisease(id) {
+    });
+    function deleteDefinition(id) {
         console.log(id);
         $.ajax({
-            url: '/admin/module/disease/' + id,
+            url: '/admin/module/definitions/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -270,7 +218,7 @@
 
                 if (data['message']['status'] === 'success') {
                     swal("", data['message']['description'], "success");
-                    var table = $('#datatablesDisease').DataTable();
+                    var table = $('#datatablesDefinition').DataTable();
                     $.fn.dataTable.ext.errMode = 'none';
                     var rows = table.rows().data();
                     for (var i = 0; i < rows.length; i++) {
@@ -288,9 +236,8 @@
             });
     }
 
-
-    $('#diseaseFormEdit').on('submit', function (event) {
-        $("#diseaseFormEdit").validate({
+    $('#DefinitionFormEdit').on('submit', function (event) {
+        $("#DefinitionFormEdit").validate({
             rules: {
                 name: "required",
                 description: "required"
@@ -303,10 +250,10 @@
         if (!$(this).valid()) return false;
         event.preventDefault();
 
-        $('#editDiseaseModal').modal('hide');
+        $('#editDefinitionModal').modal('hide');
         var formData = new FormData(this);
         $.ajax({
-            url: '/admin/module/disease/' + $('#editId').val(),
+            url: '/admin/module/definitions/' + $('#editId').val(),
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -325,22 +272,22 @@
                 }
                 if (data['message']['status'] === 'success') {
                     swal("", data['message']['description'], "success");
-                    var table = $('#datatablesDisease').DataTable();
+                    var table = $('#datatablesDefinition').DataTable();
                     $.fn.dataTable.ext.errMode = 'none';
                     var rows = table.rows().data();
                     for (var i = 0; i < rows.length; i++) {
                         console.log(rows[i].id);
-                        console.log(data['disease']['id']);
+                        console.log(data['definitions']['id']);
 
-                        if (rows[i].id == data['disease']['id']) {
+                        if (rows[i].id == data['definitions']['id']) {
                             console.log("run");
                             table.row(this).data(
                                 [
-                                    data['disease']['name'],
+                                    data['definitions']['name'],
                                     function (id) {
                                         return '<div class="text-center">'
-                                            + '<a onclick= "editDisease(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
-                                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDisease(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
+                                            + '<a onclick= "editDefinition(' + id + ')"><img src="/images/icon_edit.svg"  width="24px" height="24px"></a>'
+                                            + '<span>  </span>' + '<a href="javascript:void(0)" onclick="deleteDefinition(' + id + ')"><img src="/images/icon_delete.svg"  width="24px" height="24px"></a>'
                                             + '</div>';
                                     }
                                 ]
@@ -358,10 +305,10 @@
 
 
 
-    function editDisease(id) {
+    function editDefinition(id) {
         console.log(id);
         $.ajax({
-            url: '/admin/module/disease/' + id,
+            url: '/admin/module/definitions/' + id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -372,36 +319,13 @@
             }
         })
             .done(function (data) {
-                // if(data['message'].status==="success"){
-                //     for( var i = 0; i< data['disease'].length; i++){
-                //         var name0 = data['disease'][i]['name'];
-                //         console.log(i+'a'+name0);
-                //         $('#info_symptom').append(
-                //             '<div class="row" style="margin-top: 20px " id="row'+i+'">' +
-                //             '                            <div class="col-md-9"> \n' +
-                //             '<input disabled name="symptom_name'+i+'" class="form-control" id="symptom'+i+'" value="'+name0+'">' +
-                //             '</div>\n' +
-                //             '      <div class="col-md-3">'+
-                //             ' <button type="button" class="btn btn-secondary btn_remove" id="'+i+'" >X</button>'+
-                //             '                            </div>\n' +
-                //             '                        </div>'
-                //         );
-                //     }
-                // } else {
-                //     $('#info_symptom').append(
-                //         '<div class="input-group" >' +
-                //         '<p>Empty data!</p>' +
-                //         '</div>'
-                //     )
-                // }
-                $('#editId').val(data['disease']['id']);
-                $('#editName').val(data['disease']['name']);
+                $('#editName').val(data['definitions']['name']);
+                $('#editId').val(data['definitions']['id']);
                 $('#modal-loading').modal('hide');
-                $('#editDiseaseModal').modal('show');
+                $('#editDefinitionsModal').modal('show');
             })
             .fail(function (error) {
                 console.log(error);
             });
-    }});
-
+    }
 </script>

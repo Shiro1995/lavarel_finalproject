@@ -9,9 +9,8 @@ use App\Model\Symptoms;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 
-class SymptomController extends Controller
+class Definitionscontroller extends Controller
 {
 
     protected $id;
@@ -122,4 +121,3 @@ class SymptomController extends Controller
         });
     }
 }
-// https://vegibit.com/php-simple-html-dom-parser-vs-friendsofphp-goutte/

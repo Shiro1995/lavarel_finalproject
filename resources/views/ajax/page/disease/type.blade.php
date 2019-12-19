@@ -105,7 +105,7 @@
             "serverSide": true,
 
             "ajax": {
-                url: '/admin/module/disease',
+                url: '/admin/module/type_disease',
                 type: 'GET'
             },
 
@@ -163,7 +163,7 @@
             var formData = new FormData(this);
             console.log(...formData);
             $.ajax({
-                url: '/admin/module/disease', // URL to submit
+                url: '/admin/module/type_disease', // URL to submit
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Authenticate with website by token. You just add and don't care it. If you didn't add and you will get error code 419 and search more about it.
                 },
