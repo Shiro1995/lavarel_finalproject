@@ -23,6 +23,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 /**
  * Using this Lib for tracking Log error from System
  * Laravel Log Viewer
@@ -39,11 +41,20 @@ Route::group(['middleware' => 'auth'], function () {
      * Running Command php artisan make:controller \Dashboard\DashboardController --resource
      * Example other Controller: php artisan make:controller \Dashboard\ProfileController
      * or if you want to create UserController inside folder Dashboard. We have command like below
-     * php artisan make:controller \Dashboard\User\UserController --resource
+     * php artisan make:controller \Dashboard\UserController --resource
      */
     Route::resource('/admin', 'Dashboard\DashboardController');
-    Route::resource('/admin/book', 'Dashboard\BookController');
-    Route::resource('/admin/category', 'Dashboard\CategoryController');
+    Route::resource('/admin/module/category', 'Dashboard\CategoryController');
+    Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
+    Route::resource('/admin/module/type_disease', 'Dashboard\TypeDiseaseController');
+    Route::resource('/admin/module/definitions', 'Dashboard\DefinitionsController');
+    Route::resource('/admin/module/prognostics', 'Dashboard\PrognosticsController');
+    Route::resource('/admin/module/reasons', 'Dashboard\ReasonsController');
+
+    Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
+    Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
+//    Route::post('/admin/module/symptom/disease/{disease}/', 'Dashboard\Symptomcontroller@addSymptom')->name('dis_symptom.create');
+
     /**
      * Now, we will use run command php artisan route:list
      *
@@ -79,10 +90,29 @@ Route::group(['middleware' => 'auth'], function () {
     /**
      * Using Ajax to navigate page
      */
-    Route::get('admin/ajax/book', 'Navigation\NavigationController@book')->name('ajax.book');
+
+
+    Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
+    Route::get('/admin/v1/pharmacy/', 'API\Pharmacycontroller@getPharmacy')->name('get_pharmacy');
+    Route::get('/admin/v1/definitions/', 'API\Definitionscontroller@getDefinitions')->name('get_symptom');
+
+
+//    Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
+
+    Route::get('admin/ajax/definitions', 'Navigation\NavigationController@definitions')->name('ajax.definitions');
+
+    Route::get('admin/ajax/prognostics', 'Navigation\NavigationController@prognostics')->name('ajax.prognostics');
+
+    Route::get('admin/ajax/reasons', 'Navigation\NavigationController@reasons')->name('ajax.reasons');
 
     Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
+
+    Route::get('admin/ajax/disease', 'Navigation\NavigationController@disease')->name('ajax.disease');
+
+    Route::get('admin/ajax/type_disease', 'Navigation\NavigationController@type_disease')->name('ajax.disease');
 
     Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
 });
 
+
+//Route::get('asdf/teset','Dashboard\Symptomcontroller@fetchDisease')->name('asdsa.test');
