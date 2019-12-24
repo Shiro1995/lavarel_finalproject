@@ -30,14 +30,15 @@ class Users extends Model
     public function getByName($name) {
         return DB::table('users')->where('name', $name)->first();
     }
+
     public function getById($id) {
         return DB::table('users')->where('id', $id)->first();
     }
 
-
     public function get() {
         return DB::table('users')->get();
     }
+
     public function deleteById($id) {
         return DB::table('users')->where('id', $id)->delete();
     }

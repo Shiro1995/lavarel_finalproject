@@ -30,6 +30,7 @@ class Symptoms extends Model
     public function getByName($name) {
         return DB::table('symptoms')->where('name', $name)->first();
     }
+
     public function getById($id) {
         return DB::table('symptoms')->where('id', $id)->first();
     }
@@ -38,6 +39,7 @@ class Symptoms extends Model
     public function get() {
         return DB::table('symptoms')->get();
     }
+
     public function deleteById($id) {
         return DB::table('symptoms')->where('id', $id)->delete();
     }
@@ -46,6 +48,7 @@ class Symptoms extends Model
     {
         return DB::table('symptoms')->where('id', $id)->update(['name'=>$data['name']]);
     }
+
     public function addSym($data)
     {
         return DB::table('disease_symptom')->insert($data);

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Model\Definition;
-use App\Model\Prognostic;
+use App\Model\Prognostics;
 use App\Model\Symptoms;
+use App\Model\Definitions;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 
-class Definitionscontroller extends Controller
+class DefinitionsController extends Controller
 {
 
     protected $id;
@@ -26,7 +26,7 @@ class Definitionscontroller extends Controller
     use HasTimestamps;
     protected $response_array;
 
-    public function __construct(Symptoms $symptoms, Definition $definition, Prognostic $prognostic) {
+    public function __construct(Symptoms $symptoms, Definitions $definition, Prognostics $prognostic) {
         $this->mModelSymptom = $symptoms;
         $this->mPrognostic = $prognostic;
         $this->mDefinition = $definition;
@@ -34,7 +34,7 @@ class Definitionscontroller extends Controller
     public function getSymptom()
     {
         $symptoms = $this->mModelSymptom->get();
-        if($symptoms==null) {
+        if($symptoms == null) {
             $this->response_array = ([
                 'http_response_code' => http_response_code(),
                 'error' => [
