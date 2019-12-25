@@ -32,7 +32,8 @@ class AuthenticateController extends Controller
     public function authenticate(Request $request) {
         try {
             $userInfo = $this->firebase->getAuth()->linkProviderThroughAccessToken($request->provider, $request->access_token);
-            if ($this->mModelUser->getByEmail($userInfo->userRecord->email) != null && $this->mModelUser->add(array([
+            $user = $this->mModelUser->getByEmail($userInfo->userRecord->email);
+            if ($this->mModelUser->getByEmail($userInfo->userRecord->email) == null && $this->mModelUser->add(array([
                     'id' => self::resetOrderInDB(),
                     'name' => $userInfo->userRecord->displayName,
                     'email' => $userInfo->userRecord->email,
@@ -55,9 +56,30 @@ class AuthenticateController extends Controller
                     ],
                     'data' => $this->mModelUser->getByEmail($userInfo->userRecord->email)
                 ]);
-            } else {
-                // Update user
-                \Log::info("Update");
+            } else if ($this->mModelUser->updateItem(array([
+                    'id' => $user->id,
+                    'name' => $userInfo->userRecord->displayName,
+                    'email' => $user->email,
+                    'password' => $user->password,
+                    'date_of_birth' => $user->date_of_birth,
+                    'gender' => $user->gender,
+                    'avatar' => $userInfo->userRecord->photoUrl,
+                    'phone_number' => $userInfo->userRecord->phoneNumber,
+                    'address' => $user->address,
+                    'is_verified' => $userInfo->userRecord->emailVerified ? 1 : 0,
+                    'uid' => $userInfo->userRecord->uid,
+                    'remember_token' => $user->remember_token,
+                    'created_at' => $this->freshTimestamp(),
+                    'updated_at' => $this->freshTimestamp()
+                ])) > 0) {
+                $this->response_array = ([
+                    'http_response_code' => http_response_code(),
+                    'error' => [
+                        'code'        => 0,
+                        'message'   => 'Success'
+                    ],
+                    'data' => $this->mModelUser->getByEmail($userInfo->userRecord->email)
+                ]);
             }
         } catch (AuthException $e) {
             $this->response_array = ([
