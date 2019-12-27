@@ -61,20 +61,22 @@ Route::group(['middleware' => 'auth'], function () {
      * Using Ajax to navigate page
      */
     Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
+
     Route::get('/admin/v1/pharmacy/', 'API\Pharmacycontroller@getPharmacy')->name('get_pharmacy');
+
     Route::get('/admin/v1/definitions/', 'API\Definitionscontroller@getDefinitions')->name('get_symptom');
 
-    Route::get('admin/ajax/definitions', 'Navigation\NavigationController@definitions')->name('ajax.definitions');
+    Route::get('/admin/ajax/definitions', 'Navigation\NavigationController@definitions')->name('ajax.definitions');
 
-    Route::get('admin/ajax/prognostics', 'Navigation\NavigationController@prognostics')->name('ajax.prognostics');
+    Route::get('/admin/ajax/prognostics', 'Navigation\NavigationController@prognostics')->name('ajax.prognostics');
 
-    Route::get('admin/ajax/reasons', 'Navigation\NavigationController@reasons')->name('ajax.reasons');
+    Route::get('/admin/ajax/reasons', 'Navigation\NavigationController@reasons')->name('ajax.reasons');
 
-    Route::get('admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
+    Route::get('/admin/ajax/category', 'Navigation\NavigationController@category')->name('ajax.category');
 
-    Route::get('admin/ajax/disease', 'Navigation\NavigationController@disease')->name('ajax.disease');
+    Route::get('/admin/ajax/disease', 'Navigation\NavigationController@disease')->name('ajax.disease');
 
-    Route::get('admin/ajax/type_disease', 'Navigation\NavigationController@type_disease')->name('ajax.disease');
+    Route::get('/admin/ajax/type_disease', 'Navigation\NavigationController@type_disease')->name('ajax.disease');
 
-    Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
+    Route::get('/admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
 });
