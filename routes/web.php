@@ -23,8 +23,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 /**
  * Using this Lib for tracking Log error from System
  * Laravel Log Viewer
@@ -37,12 +35,6 @@ Route::group(['prefix' => '', 'note' => 'LOG'], function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    /**
-     * Running Command php artisan make:controller \Dashboard\DashboardController --resource
-     * Example other Controller: php artisan make:controller \Dashboard\ProfileController
-     * or if you want to create UserController inside folder Dashboard. We have command like below
-     * php artisan make:controller \Dashboard\UserController --resource
-     */
     Route::resource('/admin', 'Dashboard\DashboardController');
     Route::resource('/admin/module/category', 'Dashboard\CategoryController');
     Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
@@ -50,54 +42,27 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/admin/module/definitions', 'Dashboard\DefinitionsController');
     Route::resource('/admin/module/prognostics', 'Dashboard\PrognosticsController');
     Route::resource('/admin/module/reasons', 'Dashboard\ReasonsController');
-
     Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
     Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
-//    Route::post('/admin/module/symptom/disease/{disease}/', 'Dashboard\Symptomcontroller@addSymptom')->name('dis_symptom.create');
 
-    /**
-     * Now, we will use run command php artisan route:list
-     *
-     * /admin => GET => admin.index => Point function index() in DashboardController. If you use this URL and you will
-     * get page HTML or view from resource. You can completely attach data inside view and load it to end-user
-     *
-     * /admin => POST => admin.store => Get Request from Form when you want use a form  to submit your data and save data to
-     * local storage. For example, Login Form or Register Form.
-     *
-     * /admin => admin.create() => admin.create => point method create() and allow you load page View and enter data on it.
-     *
-     * /admin{admin} => GET/DELETE => Using param from URL admin (you pass ID or anything) to do your manipulation such as Delete, Search, ...
-     *
-     * Summarize: We have CRUD => create, update and delete.
-     * Let's do an example to know how it works.
-     *
-     * Notes:
-     * To know exactly what method (create, index, update, store where are???). Let visit DashboardController.php in app folder.
-     */
-
-    /**
+    /*
      * Custom specify route with specific URL.
      * - Make LogoutController inside folder Dashboard. php artisan make:controller Dashboard\LogoutController
      * - Check by command: php artisan route:list
      */
     Route::post('logout', 'Dashboard\LogoutController@logout')->name('logout');
 
-    /**
+    /*
      * Similarity with CRUD for User, Doctor, Disease, Pharmacy,...
      */
     Route::resource('/user', 'Dashboard\UserController');
 
-    /**
+    /*
      * Using Ajax to navigate page
      */
-
-
     Route::get('/admin/v1/disease/', 'API\Diseasecontroller@getDisease')->name('get_disease');
     Route::get('/admin/v1/pharmacy/', 'API\Pharmacycontroller@getPharmacy')->name('get_pharmacy');
     Route::get('/admin/v1/definitions/', 'API\Definitionscontroller@getDefinitions')->name('get_symptom');
-
-
-//    Route::get('/admin/module/disease/symptom/{disease}/', 'Dashboard\Diseasecontroller@showSymptom')->name('dis_symptom.update');
 
     Route::get('admin/ajax/definitions', 'Navigation\NavigationController@definitions')->name('ajax.definitions');
 
@@ -113,6 +78,3 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
 });
-
-
-//Route::get('asdf/teset','Dashboard\Symptomcontroller@fetchDisease')->name('asdsa.test');
