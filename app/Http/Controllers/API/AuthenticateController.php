@@ -33,7 +33,7 @@ class AuthenticateController extends Controller
     // https://readthedocs.org/projects/firebase-php/downloads/pdf/latest/
     public function authenticate(Request $request) {
         try {
-            $provide = Provider::FACEBOOK;
+            $provide = $request->provider; // I'm set hard code here, we will get from mobile.
             return $this->firebase->getAuth()->linkProviderThroughAccessToken($provide, $request->access_token);
         } catch (AuthException $e) {
             $this->response_array = ([
