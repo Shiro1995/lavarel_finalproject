@@ -199,7 +199,6 @@
     <script src="{{ URL::asset('js/jquery.dataTables.min.js') }}"></script>
 
     <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('js/bootstrap2-toggle.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-progressbar.min.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap-toggle.js') }}"></script>
     <script src="{{ URL::asset('js/custom.min.js') }}"></script>
