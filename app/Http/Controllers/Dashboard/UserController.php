@@ -29,7 +29,7 @@ class UserController extends Controller
         $users = $this->mModelUser->get();
         $collections = collect();
         foreach ($users as $user) {
-            if (DB::table('model_has_roles')->where('model_id', $user->id)->first() != null) {
+            if (DB::table('model_has_roles')->where('role_id', $user->id)->where('model_id', 3)->first() != null) {
                 $arr = array(
                     'id' => $user->id,
                     'name' => $user->name,

@@ -35,14 +35,22 @@ Route::group(['prefix' => '', 'note' => 'LOG'], function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('/admin', 'Dashboard\DashboardController');
+    Route::get('/admin', 'Dashboard\DashboardController@index')->name('admin.index');
+
     Route::resource('/admin/module/category', 'Dashboard\CategoryController');
+
     Route::resource('/admin/module/disease', 'Dashboard\DiseaseController');
+
     Route::resource('/admin/module/type_disease', 'Dashboard\TypeDiseaseController');
+
     Route::resource('/admin/module/definitions', 'Dashboard\DefinitionsController');
+
     Route::resource('/admin/module/prognostics', 'Dashboard\PrognosticsController');
+
     Route::resource('/admin/module/reasons', 'Dashboard\ReasonsController');
+
     Route::post('/admin/module/category/{category}', 'Dashboard\Categorycontroller@update')->name('category.update');
+
     Route::post('/admin/module/disease/{disease}', 'Dashboard\Diseasecontroller@update')->name('disease.update');
 
     /*
