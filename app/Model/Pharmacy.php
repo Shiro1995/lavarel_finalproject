@@ -41,6 +41,10 @@ class Pharmacy extends Model
         return DB::table('pharmacy')->where('id', $id)->first();
     }
 
+    public function getByUserId($user_id) {
+        return DB::table('pharmacy')->where('user_id', $user_id)->first();
+    }
+
     public function updateById($id, $data)
     {
         return DB::table('pharmacy')->where('id', $id)->update(['name'=>$data['name']]);

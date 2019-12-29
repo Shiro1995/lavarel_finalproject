@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Validator;
 class UsersController extends Controller
 {
 
-    protected $mModelCat;
+    protected $mModelUser;
     use HasTimestamps;
 
-    public function __construct(Users $cat) {
+    public function __construct(Users $user) {
         $this->middleware('auth');
-        $this->mModelCat = $cat;
+        $this->mModelUser = $user;
     }
 
     /**
@@ -27,16 +27,20 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
-        $categories = $this->mModelCat->get();
+    public function index() {
+        $users = $this->mModelUser->get();
         $collections = collect();
-        foreach ($categories as $category) {
+        foreach ($users as $user) {
             $arr = array(
-                'id' => $category->id,
-                'name' => $category->name,
-                'email'=>$category->email,
-                'manipulation' => $category->id
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'date_of_birth' => $user->date_of_birth == null ? null : date("M d, Y", $user->date_of_birth),
+                'avatar' => $user->avatar,
+                'phone_number' => $user->phone_number,
+                'address' => $user->address,
+                'gender' => $user->gender,
+                'manipulation' => $user->id
             );
             $collections->push($arr);
         }

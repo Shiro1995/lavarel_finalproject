@@ -838,7 +838,7 @@ a {
 }
 
 .nav.side-menu > li.active, .nav.side-menu > li.current-page {
-    border-right: 5px solid #1ABB9C
+    border-right: 5px solid #425668;
 }
 
 .nav li.current-page {

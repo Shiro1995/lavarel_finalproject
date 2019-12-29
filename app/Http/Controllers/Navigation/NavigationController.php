@@ -94,4 +94,17 @@ class NavigationController extends Controller {
         }
         return null;
     }
+
+    public function visitor() {
+        try {
+            $returnHTML = view('ajax.page.visitor.index')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            \Log::info($e);
+        }
+        return null;
+    }
 }

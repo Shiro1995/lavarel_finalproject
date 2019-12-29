@@ -58,6 +58,10 @@ class User extends Authenticatable implements JWTSubject
         return DB::table('users')->where('id', '=', $id)->first();
     }
 
+    public function getByUid($uid) {
+        return DB::table('users')->where('uid', '=', $uid)->first();
+    }
+
     public function updateItem($data) {
         return DB::table('users')
             ->where('email', $data[0]['email'])

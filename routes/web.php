@@ -55,7 +55,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*
      * Similarity with CRUD for User, Doctor, Disease, Pharmacy,...
      */
-    Route::resource('/user', 'Dashboard\UserController');
+    Route::resource('/admin/user', 'Dashboard\UserController');
+
+    Route::post('/admin/user/{user}', 'Dashboard\UserController@update')->name('customer.update');
 
     /*
      * Using Ajax to navigate page
@@ -79,4 +81,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/ajax/type_disease', 'Navigation\NavigationController@type_disease')->name('ajax.disease');
 
     Route::get('/admin/ajax/dashboard', 'Navigation\NavigationController@dashboard')->name('ajax.dashboard');
+
+    Route::get('/admin/ajax/visitor', 'Navigation\NavigationController@visitor')->name('ajax.visitor');
 });

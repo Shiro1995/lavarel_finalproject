@@ -52,6 +52,13 @@
                     <div class="menu_section">
                         <h3>General</h3>
                         <ul class="nav side-menu">
+                            <li><a><i class="fa fa-home"></i> Users <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a id="nav_view_visitor" href="javascript:void(0)">Visitor</a></li>
+                                    <li><a id="nav_view_pharmacist" href="javascript:void(0)">Pharmamcist</a></li>
+                                    <li><a id="nav_view_doctor" href="javascript:void(0)">Doctor</a></li>
+                                </ul>
+                            </li>
                             <li><a><i class="fa fa-home"></i> Disease <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a id="nav_view_type_disease" href="javascript:void(0)">Type Disease</a></li>
@@ -65,7 +72,6 @@
                                     <li><a id="nav_view_reasons" href="javascript:void(0)">Reasons</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
                 </div>
