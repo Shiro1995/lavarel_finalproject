@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Model\Category;
-use App\Model\Disease;
+use Illuminate\Support\Facades\DB;
 use App\Model\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,18 +30,20 @@ class UsersController extends Controller
         $users = $this->mModelUser->get();
         $collections = collect();
         foreach ($users as $user) {
-            $arr = array(
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'date_of_birth' => $user->date_of_birth == null ? null : date("M d, Y", $user->date_of_birth),
-                'avatar' => $user->avatar,
-                'phone_number' => $user->phone_number,
-                'address' => $user->address,
-                'gender' => $user->gender,
-                'manipulation' => $user->id
-            );
-            $collections->push($arr);
+            if (DB::table('model_has_roles')->where('model_id', $user->id)->get() != null) {
+                $arr = array(
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'date_of_birth' => $user->date_of_birth == null ? null : date("M d, Y", $user->date_of_birth),
+                    'avatar' => $user->avatar,
+                    'phone_number' => $user->phone_number,
+                    'address' => $user->address,
+                    'gender' => $user->gender,
+                    'manipulation' => $user->id
+                );
+                $collections->push($arr);
+            }
         }
         return Datatables::collection($collections)->make();
     }
