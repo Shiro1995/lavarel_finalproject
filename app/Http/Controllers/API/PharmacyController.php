@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Pharmacy;
 use App\User;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Support\Facades\Request;
 
 class PharmacyController extends Controller
 {
@@ -22,8 +23,8 @@ class PharmacyController extends Controller
 
     public function __construct(Pharmacy $pharmacy, User $user)
     {
-        $this->mModelUser = $user;
         $this->mModelPharmacy = $pharmacy;
+        $this->mModelUser = $user;
     }
 
     public function get_pharmacy()
@@ -41,10 +42,9 @@ class PharmacyController extends Controller
                 'close_time' => $pharmacy->close_time,
                 'created_at' => $pharmacy->created_at,
                 'updated_at' => $pharmacy->updated_at,
-                'user' => $this->mModelUser->getByID($pharmacy->user_id)
+                'user' => $this->mModelUser->getById($pharmacy->user_id),
             );
         }
-
         if ($pharmacies == null) {
             $this->response_array = ([
                 'http_response_code' => http_response_code(),
@@ -61,14 +61,13 @@ class PharmacyController extends Controller
                     'code' => 0,
                     'message' => "Success"
                 ],
-                'data' => $result
+                'data' => $result,
             ]);
         }
-
         return json_encode($this->response_array);
     }
 
-    public function phamarcy($uid) {
-        \Log::info($uid);
+    public function check_pharmacy(Request $request) {
+        \Log::info($request);
     }
 }

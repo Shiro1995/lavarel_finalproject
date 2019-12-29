@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Navigation;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
-class NavigationController extends Controller
-{
+class NavigationController extends Controller {
 
     public function __construct() {
+        // TODO
     }
 
     /**
@@ -18,53 +19,79 @@ class NavigationController extends Controller
     }
 
     public function disease() {
-        $returnHTML = view('ajax.page.disease.index')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        try {
+            $returnHTML = view('ajax.page.disease.index')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            Log::info($e);
+        }
+        return null;
     }
     public function type_disease() {
-        $returnHTML = view('ajax.page.disease.type')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        try {
+            $returnHTML = view('ajax.page.disease.type')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            Log::info($e);
+        }
+        return null;
     }
 
     public function category() {
-        $returnHTML = view('ajax.page.category.index')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        try {
+            $returnHTML = view('ajax.page.category.index')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            \Log::info($e);
+        }
+        return null;
     }
+
     public function definitions() {
-        $returnHTML = view('ajax.page.definitions.index')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        try {
+            $returnHTML = view('ajax.page.definitions.index')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            Log::info($e);
+        }
+        return null;
     }
+
     public function prognostics() {
-        $returnHTML = view('ajax.page.prognostics.index')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        try {
+            $returnHTML = view('ajax.page.prognostics.index')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            Log::info($e);
+        }
+        return null;
     }
 
     public function reasons() {
-        $returnHTML = view('ajax.page.reasons.index')->render();
-        $response_array = ([
-            'success' => true,
-            'html' => $returnHTML
-        ]);
-        echo json_encode($response_array);
+        try {
+            $returnHTML = view('ajax.page.reasons.index')->render();
+            return json_encode($response_array = ([
+                'success' => true,
+                'html' => $returnHTML
+            ]));
+        } catch (\Throwable $e) {
+            \Log::info($e);
+        }
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-use App\Model\Definitions;
 use App\Model\Prognostic;
 use App\Model\Prognostics;
 use GuzzleHttp\Client;

@@ -164,7 +164,7 @@
 }
 
 .left_col {
-    background: #73879c;
+    background: #314642
 }
 
 .nav-sm .container.body .col-md-3.left_col {
@@ -405,7 +405,7 @@
 }
 
 body .container.body .right_col {
-    background: #F7F7F7
+    background: #FFF;
 }
 
 .nav-md .container.body .right_col {
@@ -416,7 +416,7 @@ body .container.body .right_col {
 .nav_title {
     width: 230px;
     float: left;
-    background: #73879c;
+    background: #314642;
     border-radius: 0;
     height: 57px
 }
@@ -568,7 +568,7 @@ body .container.body .right_col {
 
 body {
     color: #73879C;
-    background: #73879c;
+    background: #314642;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -696,7 +696,7 @@ table.no-margin .progress {
 }
 
 a {
-    color: #5A738E
+    color: #324642;
 }
 
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus, :active, :focus, :visited, a, a:active, a:focus, a:visited {
@@ -793,7 +793,7 @@ a {
 }
 
 .nav-md ul.nav.child_menu li:before {
-    background: #bf3820;
+    background: #425668;
     bottom: auto;
     content: "";
     height: 8px;
@@ -807,7 +807,7 @@ a {
 }
 
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid #bf3820;
+    border-left: 1px solid #425668;
     bottom: 0;
     content: "";
     left: 27px;
@@ -856,7 +856,7 @@ a {
 
 .nav.side-menu > li.active > a {
     text-shadow: rgba(0, 0, 0, .25) 0 -1px 0;
-    background: linear-gradient(#7387cc, #7387cc), #73879c;
+    background: linear-gradient(#324642, #324642), #324642;
     box-shadow: rgba(0, 0, 0, .25) 0 1px 0, inset rgba(255, 255, 255, .16) 0 1px 0
 }
 
@@ -1602,7 +1602,7 @@ div.box {
 }
 
 ul.msg_list li {
-    background: #f7f7f7;
+    background: #FFF;
     padding: 5px;
     display: -ms-flexbox;
     display: flex;
@@ -1838,7 +1838,7 @@ span.right {
     padding: 5px 0 0;
     position: fixed;
     width: 230px;
-    background: #73879c;
+    background: #314642;
     z-index: 999
 }
 
@@ -2363,7 +2363,7 @@ a.star {
 
 .editor.btn-toolbar {
     zoom: 1;
-    background: #F7F7F7;
+    background: #FFF;
     margin: 5px 2px;
     padding: 3px 0;
     border: 1px solid #EFEFEF
@@ -3245,7 +3245,7 @@ img.avatar, ul.messages li img.avatar {
     display: inline-block;
     border-radius: 2px;
     padding: 2px;
-    background: #f7f7f7;
+    background: #FFF;
     border: 1px solid #e6e6e6
 }
 
@@ -3476,7 +3476,7 @@ ul.project_files li a i {
 
 .caption {
     padding: 9px 5px;
-    background: #F7F7F7
+    background: #FFF;
 }
 
 .caption p {
@@ -3622,11 +3622,11 @@ ul.project_files li a i {
 }
 
 .tabs-left {
-    border-right: 1px solid #F7F7F7
+    border-right: 1px solid #FFF;
 }
 
 .tabs-right {
-    border-left: 1px solid #F7F7F7
+    border-left: 1px solid #FFF;
 }
 
 .tabs-left > li, .tabs-right > li {
@@ -3644,7 +3644,7 @@ ul.project_files li a i {
 
 .tabs-left > li > a, .tabs-right > li > a {
     margin-right: 0;
-    background: #F7F7F7;
+    background: #FFF;
     overflow: hidden;
     text-overflow: ellipsis
 }
@@ -3654,12 +3654,12 @@ ul.project_files li a i {
 }
 
 .tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.active > a:hover {
-    border-bottom-color: #F7F7F7;
+    border-bottom-color: #FFF;
     border-right-color: transparent
 }
 
 .tabs-right > li.active > a, .tabs-right > li.active > a:focus, .tabs-right > li.active > a:hover {
-    border-bottom: 1px solid #F7F7F7;
+    border-bottom: 1px solid #FFF;
     border-left-color: transparent
 }
 
@@ -3810,7 +3810,7 @@ ul.project_files li a i {
 }
 
 .login {
-    background: #F7F7F7
+    background: #FFF
 }
 
 .login .fa-paw {
@@ -4120,7 +4120,7 @@ fieldset {
 }
 
 .cropper .img-container, .cropper .img-preview {
-    background-color: #f7f7f7;
+    background-color: #FFF;
     width: 100%;
     text-align: center
 }
@@ -4240,7 +4240,7 @@ fieldset {
 }
 
 .cropper .docs-options .dropdown-menu > li:hover {
-    background-color: #f7f7f7
+    background-color: #FFF
 }
 
 .cropper .docs-options .dropdown-menu > li > label {

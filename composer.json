@@ -15,7 +15,7 @@
         "guzzle/guzzle": "~3.0",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.4",
-        "kreait/firebase-php": "4.35",
+        "kreait/firebase-php": "^4.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "^1.0",
         "rap2hpoutre/laravel-log-viewer": "^1.2",

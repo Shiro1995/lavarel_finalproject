@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Model\Disease;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
+use App\Model\Disease;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
-class TypeDiseaseController extends Controller
-{
+class TypeDiseaseController extends Controller {
     protected $symptom = '';
     protected $mModelDisease;
     use HasTimestamps;
@@ -25,8 +23,7 @@ class TypeDiseaseController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
+    public function index() {
         $categories = $this->mModelDisease->getType();
         $collections = collect();
         foreach ($categories as $Disease) {
@@ -45,22 +42,18 @@ class TypeDiseaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-
-
+    public function create() {
+        // TODO
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
-    {
-        \Log::info('hello');
+    public function store(Request $request) {
         $credentials = $request->only('name');
         $rules = [
             'name' => 'required'
@@ -87,12 +80,10 @@ class TypeDiseaseController extends Controller
                 ]));
             } else {
                 if ($this->mModelDisease->insert(array([
-//                        'id' => 0,
                         'name' => $request->name,
                         'created_at' => $this->freshTimestamp(),
                         'updated_at' => $this->freshTimestamp()
                     ])) > 0) {
-                    // Success
                     return json_encode(([
                         'message' => [
                             'status' => "success",
@@ -112,64 +103,7 @@ class TypeDiseaseController extends Controller
         }
     }
 
-
-    public  function  fetchsymptom(string $name)
-    {
-        \Log::info('say hi');
-        $goutteClient = new \Goutte\Client();
-        $guzzleClient = new Client([
-            'timeout' => 60,
-            'verify' => false,
-        ]);
-        $goutteClient->setClient($guzzleClient);
-        $url2 = "https://hellobacsi.com/benh/".$name;
-
-//        $crawler = $goutteClient->request('GET', $url2);
-        \Log::info($url2);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-        public function fetchDisease()
-        {
-
-            $goutteClient = new \Goutte\Client();
-            $guzzleClient = new Client([
-                'timeout' => 60,
-                'verify' => false,
-            ]);
-            $goutteClient->setClient($guzzleClient);
-            $url = "https://hellobacsi.com/benh/alkapton-nieu/";
-
-            $crawler = $goutteClient->request('GET', $url);
-
-            \Log::info('ehllo');
-
-                  $crawler->filter('section#h-trieu-chung-thuong-gap')->each(function ($node) {
-                          $node->filter('p')->each(function ($node1) {
-
-
-                              \Log::info( $node1->text());
-                              $this->mModelDisease->insert(array([
-//                        'id' => 0,
-//                                  'name' => $node2->text(),
-                                  'created_at' => $this->freshTimestamp(),
-                                  'updated_at' => $this->freshTimestamp()
-                              ]));
-                          });
-
-                  });
-
-
-
-
-        }
-    public function showSymptom($id)
-    {
+    public function showSymptom($id) {
         $cat = $this->mModelDisease->getSymptons($id);
 
         if ($cat == null) {
@@ -187,13 +121,11 @@ class TypeDiseaseController extends Controller
                 ],
                 'disease' => $cat,
 
-            ])
-
-            );
+            ]));
         }
     }
-    public function show($id)
-    {
+
+    public function show($id) {
         $cat = $this->mModelDisease->getById($id);
         if ($cat == null) {
             return json_encode(([
@@ -216,25 +148,13 @@ class TypeDiseaseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $credentials = $request->only('name');
         $rules = [
             'name' => 'required',
@@ -260,7 +180,7 @@ class TypeDiseaseController extends Controller
                     ]
                 ]));
             } else {
-                if ($this->mModelDisease->updateById($id, $request) > 0){
+                if ($this->mModelDisease->updateById($id, $request) > 0) {
                     return json_encode(([
                         'message' => [
                             'status' => "success",
@@ -268,8 +188,7 @@ class TypeDiseaseController extends Controller
                         ],
                         'disease' => $this->mModelDisease->getById($id)
                     ]));
-                }
-                else {
+                } else {
                     return json_encode(([
                         'message' => [
                             'status' => "error",
@@ -280,19 +199,15 @@ class TypeDiseaseController extends Controller
             }
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-
-
-    public function destroy($id)
-    {
-        $cat = $this->mModelDisease->deleteById($id);
-        //Log::info($id);
-        if ( $this->mModelDisease->getById($id) != null) {
+    public function destroy($id) {
+        if ($this->mModelDisease->getById($id) != null) {
             return json_encode(([
                 'message' => [
                     'status' => "error",

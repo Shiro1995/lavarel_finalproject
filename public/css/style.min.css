@@ -1,0 +1,11 @@
+.btn-default {
+    color: white;
+    background-color: #324642;
+    border-color: #324642;
+}
+
+.btn-default:hover {
+    color: #324642;
+    background-color: white;
+    border-color: white;
+}
