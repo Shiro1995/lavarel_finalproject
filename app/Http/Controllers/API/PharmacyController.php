@@ -70,26 +70,37 @@ class PharmacyController extends Controller
     public function check_pharmacy(Request $request) {
         if ($this->mModelUser->getByUid($request->uid) != null) {
             $pharmacy = $this->mModelPharmacy->getByUserId($this->mModelUser->getByUid($request->uid)->id);
-            $result[] = array(
-                'id' => $pharmacy->id,
-                'name' => $pharmacy->name,
-                'image' => $pharmacy->image,
-                'address' => $pharmacy->address,
-                'phone_number' => $pharmacy->phone_number,
-                'open_time' => $pharmacy->open_time,
-                'close_time' => $pharmacy->close_time,
-                'created_at' => $pharmacy->created_at,
-                'updated_at' => $pharmacy->updated_at,
-                'user' => $this->mModelUser->getById($pharmacy->user_id),
-            );
-            $this->response_array = ([
-                'http_response_code' => http_response_code(),
-                'error' => [
-                    'code' => 0,
-                    'message' => "Success"
-                ],
-                'data' => $result,
-            ]);
+            if ($pharmacy != null) {
+                $result[] = array(
+                    'id' => $pharmacy->id,
+                    'name' => $pharmacy->name,
+                    'image' => $pharmacy->image,
+                    'address' => $pharmacy->address,
+                    'phone_number' => $pharmacy->phone_number,
+                    'open_time' => $pharmacy->open_time,
+                    'close_time' => $pharmacy->close_time,
+                    'created_at' => $pharmacy->created_at,
+                    'updated_at' => $pharmacy->updated_at,
+                    'user' => $this->mModelUser->getById($pharmacy->user_id),
+                );
+                $this->response_array = ([
+                    'http_response_code' => http_response_code(),
+                    'error' => [
+                        'code' => 0,
+                        'message' => "Success"
+                    ],
+                    'data' => $result,
+                ]);
+            } else {
+                $this->response_array = ([
+                    'http_response_code' => http_response_code(),
+                    'error' => [
+                        'code' => 308,
+                        'message' => "Error"
+                    ],
+                    'data' => null,
+                ]);
+            }
         } else {
             $this->response_array = ([
                 'http_response_code' => http_response_code(),

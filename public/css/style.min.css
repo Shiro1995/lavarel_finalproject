@@ -9,3 +9,26 @@
     background-color: white;
     border-color: white;
 }
+
+.modal-title {
+    font-size: 18px;
+    color: white;
+}
+
+.modal-header {
+    background-color: #314642;
+    border-bottom: 0;
+}
+
+.modal-content > form {
+    padding: 15px;
+}
+
+.error {
+    color: red;
+    font-family: normal;
+}
+
+.modal-footer {
+    border-bottom: 0;
+}

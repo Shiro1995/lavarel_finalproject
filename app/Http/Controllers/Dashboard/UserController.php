@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Support\Facades\Validator;
+use Storage;
+use Config;
 
 class UserController extends Controller
 {
@@ -55,55 +57,84 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $credentials = $request->only('name');
+        $credentials = $request->only('name', 'email', 'password');
         $rules = [
-            'name' => 'required'
+            'name' => 'required', 'string', 'max:255',
+            'email' => 'required','string', 'email', 'max:255', 'unique:users',
+            'password' => 'required'
         ];
         $customMessages = [
-            'required' => 'Please fill in form'
+            'required' => 'The attribute field is required',
+            'email' => 'The email address is invalid',
+            'max:255' => 'The max of the length of content is limited by 255 characters.',
+            'unique:users' => 'The email address have already existed in the system',
         ];
-
+        $request->avatar = '';
+        if (isset($_FILES['avatar']['tmp_name'])) {
+            if (!file_exists($_FILES['avatar']['tmp_name']) || !is_uploaded_file($_FILES['avatar']['tmp_name'])) {
+                $request->avatar = 'https://vogobook.s3-ap-southeast-1.amazonaws.com/vogobook/avatar/data/profile.png';
+            } else {
+                $fileExt = $request->file('avatar')->getClientOriginalName();
+                $fileName = pathinfo($fileExt, PATHINFO_FILENAME);
+                $info = pathinfo($_FILES['avatar']['name']);
+                if (preg_match("/^.*picture.*$/", $info['filename']) == 0) {
+                    $ext = $info['extension'];
+                } else {
+                    $ext = 'png';
+                }
+                $key = $this->helper->clean(trim(strtolower($fileName)) . "_" . time()) . "." . $ext;
+                Storage::disk('s3')->put(Config::get('constants.options.ezhealthcare') . '/' . $key, fopen($request->file('avatar'), 'r+'), 'public');
+                $request->avatar = preg_replace("/^http:/i", "https:", Storage::disk('s3')->url(Config::get('constants.options.ezhealthcare') . '/' . $key));
+            }
+        }
         $validator = Validator::make($credentials, $rules, $customMessages);
         if ($validator->fails()) {
-            return json_encode(([
+            $this->response_array = ([
                 'message' => [
-                    'status' => "invalid",
+                    'status' => 'invalid',
                     'description' => $validator->errors()->first()
                 ]
-            ]));
+            ]);
         } else {
-            if ($this->mModelCat->getByName($request->name) > 0) {
-                return json_encode(([
+            if ($this->mModelUser->getByEmail($request->email)) {
+                $this->response_array = ([
                     'message' => [
-                        'status' => "invalid",
-                        'description' => "The category already exists in the system!"
+                        'status' => 'invalid',
+                        'description' => 'The email already exists in the system!'
                     ]
-                ]));
+                ]);
             } else {
-                if ($this->mModelCat->insert(array([
-//                        'id' => 0,
+                if ($this->mModelUser->add(array([
+                        'id' => self::resetOrderInDB(),
                         'name' => $request->name,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'date_of_birth' => strtotime($request->date_of_birth),
+                        'gender' => $request->gender,
+                        'phone_number' => $request->phone_number,
+                        'avatar' => $request->avatar,
+                        'address' => $request->address,
                         'created_at' => $this->freshTimestamp(),
-                        'updated_at' => $this->freshTimestamp()
+                        'updated_at' => $this->freshTimestamp(),
                     ])) > 0) {
-                    // Success
-                    return json_encode(([
+                    $this->response_array = ([
                         'message' => [
-                            'status' => "success",
-                            'description' => "Create a new category successfully"
+                            'status' => 'success',
+                            'description' => 'Create a new customer successfully'
                         ],
-                        'categories' => $this->mModelCat->getByName($request->name)
-                    ]));
+                        'user' => $this->mModelUser->getByEmail($request->email)
+                    ]);
                 } else {
-                    return json_encode(([
+                    $this->response_array = ([
                         'message' => [
-                            'status' => "error",
-                            'description' => "Create a new category failure"
+                            'status' => 'error',
+                            'description' => 'Create a new customer in failure'
                         ]
-                    ]));
+                    ]);
                 }
             }
         }
+        echo json_encode($this->response_array);
     }
 
 

@@ -1,13 +1,13 @@
-<div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="createPharmaciestModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title">New Customer</span>
+                <span class="modal-title">New Pharmaciest</span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="customerFormCreate">
+            <form id="pharmaciestFormCreate">
                 <div class="form-group">
                     <label class="col-form-label">Name:</label>
                     <input name="name" type="text" class="form-control" id="name">

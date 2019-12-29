@@ -5,7 +5,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <button id="newUser" class="btn btn-default" type="button">New Staff</button>
+                        <button id="newVisitor" class="btn btn-default" type="button">New Visitor</button>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -42,8 +42,8 @@
         </div>
     </div>
 </div>
-@include('modal.user.create')
-@include('modal.user.edit')
+@include('modal.pharmaciest.create')
+@include('modal.pharmaciest.edit')
 <script>
     $(document).ready(function () {
         $('#datatablesUser').dataTable({
@@ -100,12 +100,14 @@
         });
     });
 
-    $('#newUser').click(function () {
-        $('#createUserModal').modal('show');
-        $('#userFormCreate').find('img').attr('src', '/images/users/profile.png');
-        $('#userFormCreate').find(':radio[name="gender"][value="0"]').prop('checked', false);
-        $('#userFormCreate').find(':radio[name="gender"][value="1"]').prop('checked', false);
-        $('#userFormCreate').find('input[type=text], input[type=password], input[type=number], input[type=email], input[type=file], input[type=date], input[type=radio] textarea').val('');
+    $('#newVisitor').click(function () {
+        $('#pharmaciestFormCreate').each(function(){
+            $(this).find(':input').val('')
+        });
+        $('#male').val('0');
+        $('#female').val('1');
+        $('input[name="gender"]').attr('checked', false);
+        $('#createPharmaciestModal').modal('show');
     });
 
     $(document).ready(function () {
