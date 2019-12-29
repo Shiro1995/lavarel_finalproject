@@ -50,6 +50,10 @@ class User extends Authenticatable implements JWTSubject
         return DB::table('users')->insert($data);
     }
 
+    public function get() {
+        return DB::table('users')->get();
+    }
+
     public function getByEmail($email) {
         return DB::table('users')->where('email', '=', $email)->first();
     }

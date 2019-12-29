@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\User;
 use Illuminate\Support\Facades\DB;
-use App\Model\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Support\Facades\Validator;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
 
     protected $mModelUser;
     use HasTimestamps;
 
-    public function __construct(Users $user) {
-        $this->middleware('auth');
+    public function __construct(User $user) {
         $this->mModelUser = $user;
     }
 
@@ -30,7 +29,7 @@ class UsersController extends Controller
         $users = $this->mModelUser->get();
         $collections = collect();
         foreach ($users as $user) {
-            if (DB::table('model_has_roles')->where('model_id', $user->id)->get() != null) {
+            if (DB::table('model_has_roles')->where('model_id', $user->id)->first() != null) {
                 $arr = array(
                     'id' => $user->id,
                     'name' => $user->name,
